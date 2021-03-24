@@ -51,3 +51,32 @@ void	stackadd_back(t_stackelem **head, t_stackelem *new)
 	new->next = NULL;
 }
 
+int	stackdelete_head(t_stackelem **head)
+{
+	t_stackelem *tmp;
+	int			data;
+
+	tmp = NULL;
+	if ((*head)->next)
+		tmp = (*head)->next;
+	data = (*head)->data;
+	free(*head);
+	*head = tmp;
+	return (data);
+}
+
+int	stackdelete_last(t_stackelem **head)
+{
+	int			data;
+	t_stackelem *last;
+	t_stackelem *tmp;
+
+	tmp = *head;
+	while (tmp->next->next)
+		tmp = tmp->next;
+	data = tmp->next->data;
+	last = tmp;
+	free(tmp->next->next);
+	last->next = NULL;
+	return (data);
+}

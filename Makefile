@@ -1,6 +1,6 @@
 NAME = checker
 
-SRC = checker.c list.c
+SRC = checker.c list.c instructions.c get_next_line/get_next_line.c
 	
 all : $(NAME)
 
