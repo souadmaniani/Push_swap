@@ -1,4 +1,4 @@
-#include "push_swap.h"
+#include "../push_swap.h"
 
 t_stackelem	*stacknew(int data)
 {

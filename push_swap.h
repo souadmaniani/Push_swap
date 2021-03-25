@@ -1,7 +1,7 @@
 #ifndef PUSH_SWAP_H
 # define PUSH_SWAP_H
-# include "libft/libft.h"
-#include "get_next_line/get_next_line.h"
+# include "srcs/libft/libft.h"
+#include "srcs/get_next_line/get_next_line.h"
 #include <stdio.h>
 # define INT_MAX	2147483647
 

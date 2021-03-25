@@ -1,6 +1,20 @@
 #include "push_swap.h"
 
 // check Error (not integers) (overflow) (duplicate)
+int is_duplicate(char *str, char **argv, int index)
+{
+    int i;
+    int j;
+
+    i = 0;
+    while (argv[++i])
+    {
+        if (!ft_strcmp(str, argv[i]) && index != i)
+            return (1);
+    }
+     return (0);
+}
+
 int    create_stack(t_stackelem **head, char **argv)
 {
     t_stackelem *new;
@@ -11,7 +25,7 @@ int    create_stack(t_stackelem **head, char **argv)
     while (argv[++i])
     {
         if (ft_atoi(argv[i]) == -1 || (!ft_atoi(argv[i])
-            && ft_strcmp(argv[i], "0")))
+            && ft_strcmp(argv[i], "0")) || is_duplicate(argv[i], argv, i))
         {
             write(1, "Error\n", 7);
             return (-1);

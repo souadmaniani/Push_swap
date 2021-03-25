@@ -1,15 +1,3 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: ozakkare <ozakkare@student.42.fr>          +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2019/10/18 17:05:23 by ozakkare          #+#    #+#              #
-#    Updated: 2019/10/23 04:49:21 by ozakkare         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
 NAME=libft.a
 
 SRCS=ft_atoi.c ft_bzero.c ft_calloc.c ft_isalnum.c ft_isalpha.c ft_isdigit.c ft_isascii.c ft_isprint.c ft_memccpy.c ft_memchr.c \

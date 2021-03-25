@@ -1,4 +1,4 @@
-#include "push_swap.h"
+#include "../push_swap.h"
 // sa sb ss pa pb ra rb rr rra rrb rrr
 void swap(t_stackelem *head)
 {
