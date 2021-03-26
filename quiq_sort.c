@@ -1,4 +1,4 @@
-#include "push_swap.h"
+#include <stdio.h>
 
 void ft_swap(int *a, int *b)
 {
@@ -6,8 +6,9 @@ void ft_swap(int *a, int *b)
 
     k = *a;
     *a = *b;
-    *a = k;
+    *b = k;
 }
+
 int partition(int *arr, int l, int h)
 {
     int pivot = arr[l];
@@ -16,9 +17,9 @@ int partition(int *arr, int l, int h)
 
     while (i < j)
     {
-        while (arr[i] <= pivot && i <= h)
+        while (arr[i] <= pivot && i < h)
             i++;
-        while (arr[j] > pivot && j >= l)
+        while (arr[j] > pivot && j > l)
             j--;
         if (i < j)
             ft_swap(&arr[i], &arr[j]);
@@ -34,8 +35,8 @@ int *quiq_sort(int *arr, int l, int h)
     if (l < h)
     {
         j = partition(arr, l, h);
-        // quiq_sort(arr, l, j);
-        // quiq_sort(arr, j + 1, h);
+        quiq_sort(arr, l, j);
+        quiq_sort(arr, j + 1, h);
     }
     return (arr);
 }
