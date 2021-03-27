@@ -1,89 +1,38 @@
 #include "push_swap.h"
 
-// check Error (not integers) (overflow) (duplicate)
-int is_duplicate(char *str, char **argv, int index)
-{
-    int i;
-    int j;
-
-    i = 0;
-    while (argv[++i])
-    {
-        if (!ft_strcmp(str, argv[i]) && index != i)
-            return (1);
-    }
-     return (0);
-}
-
-int    create_stack(t_stackelem **head, char **argv)
-{
-    t_stackelem *new;
-    int i;
-
-    i = 0;
-    *head = NULL;
-    while (argv[++i])
-    {
-        if (ft_atoi(argv[i]) == -1 || (!ft_atoi(argv[i])
-            && ft_strcmp(argv[i], "0")) || is_duplicate(argv[i], argv, i))
-        {
-            write(1, "Error\n", 7);
-            return (-1);
-        }
-        new = stacknew(ft_atoi(argv[i]));
-        if (!new)
-            return (-1);
-        stackadd_back(head, new);
-    }
-    return (0);
-}
-// PRINT STACK
-void print_stack(t_stackelem *head)
-{
-    char *str;
-    while (head)
-    {
-        str = ft_itoa(head->data);
-        write(1, str, ft_strlen(str));
-        write(1, " ", 1);
-        head = head->next;
-    }
-    write(1, "\n", 1);
-}
-
 int apply_instruction(char *line, t_stackelem **a, t_stackelem **b)
 {
 
     if(!ft_strcmp(line, "sa"))
-        swap(*a);
+        ft_swap(*a);
     else if (!ft_strcmp(line, "sb"))
-        swap(*b);
+        ft_swap(*b);
     else if (!ft_strcmp(line, "ss"))
     {
-        swap(*a);
-        swap(*b);
+        ft_swap(*a);
+        ft_swap(*b);
     }
     else if (!ft_strcmp(line, "pa"))
-        push(a, b);
+        ft_push(a, b);
     else if (!ft_strcmp(line, "pb"))
-        push(b, a);
+        ft_push(b, a);
     else if (!ft_strcmp(line, "ra"))
-        rotate(a);   
+        ft_rotate(a);   
     else if (!ft_strcmp(line, "rb"))
-        rotate(b);
+        ft_rotate(b);
     else if (!ft_strcmp(line, "rr"))
     {
-        rotate(a);
-        rotate(b);
+        ft_rotate(a);
+        ft_rotate(b);
     }
     else if (!ft_strcmp(line, "rra"))
-        reverse_rotate(a);
+        ft_reverse_rotate(a);
     else if (!ft_strcmp(line, "rrb"))
-        reverse_rotate(b);
+        ft_reverse_rotate(b);
     else if (!ft_strcmp(line, "rrr"))
     {
-        reverse_rotate(a);
-        reverse_rotate(b);
+        ft_reverse_rotate(a);
+        ft_reverse_rotate(b);
     }
     else
     {
@@ -93,17 +42,6 @@ int apply_instruction(char *line, t_stackelem **a, t_stackelem **b)
     return (0);
 }
 //sa pb pb pb rr rrr sa pa pa pa
-
-int is_sortded(t_stackelem *head)
-{
-    while (head->next)
-    {
-        if (head->data > head->next->data)
-            return (0);
-        head = head->next;
-    }
-    return (1);
-}
 
 int main(int argc, char *argv[])
 {

@@ -47,6 +47,6 @@ int main(int argc, char*argv[])
     int table[7] = {9, 8, 10, 3, 5, 2, 1};
     int *sorted_table = quiq_sort(table, 0, 6);
     while (++i < 7)
-        printf ("%d ", table[i]);
+        printf ("%d ", sorted_table[i]);
     printf("\n");
 }

@@ -1,6 +1,6 @@
 #include "../push_swap.h"
 // sa sb ss pa pb ra rb rr rra rrb rrr
-void swap(t_stackelem *head)
+void ft_swap(t_stackelem *head)
 {
     int tmp;
     
@@ -12,7 +12,7 @@ void swap(t_stackelem *head)
     }
 }
 
-void push(t_stackelem **dest, t_stackelem **src)
+void ft_push(t_stackelem **dest, t_stackelem **src)
 {
     int data;
     t_stackelem *new;
@@ -25,7 +25,7 @@ void push(t_stackelem **dest, t_stackelem **src)
     }
 }
 
-void rotate(t_stackelem **head)
+void ft_rotate(t_stackelem **head)
 {
     int data;
     t_stackelem *new;
@@ -38,7 +38,7 @@ void rotate(t_stackelem **head)
     }
 }
 
-void reverse_rotate(t_stackelem **head)
+void ft_reverse_rotate(t_stackelem **head)
 {
     int data;
     t_stackelem *new;
