@@ -4,35 +4,35 @@ int apply_instruction(char *line, t_stackelem **a, t_stackelem **b)
 {
 
     if(!ft_strcmp(line, "sa"))
-        ft_swap(*a);
+        ft_swap(a, b);
     else if (!ft_strcmp(line, "sb"))
-        ft_swap(*b);
+        ft_swap(b, a);
     else if (!ft_strcmp(line, "ss"))
     {
-        ft_swap(*a);
-        ft_swap(*b);
+        ft_swap(a, b);
+        ft_swap(b, a);
     }
     else if (!ft_strcmp(line, "pa"))
         ft_push(a, b);
     else if (!ft_strcmp(line, "pb"))
         ft_push(b, a);
     else if (!ft_strcmp(line, "ra"))
-        ft_rotate(a);   
+        ft_rotate(a, b);   
     else if (!ft_strcmp(line, "rb"))
-        ft_rotate(b);
+        ft_rotate(b, a);
     else if (!ft_strcmp(line, "rr"))
     {
-        ft_rotate(a);
-        ft_rotate(b);
+        ft_rotate(a, b);
+        ft_rotate(b, a);
     }
     else if (!ft_strcmp(line, "rra"))
-        ft_reverse_rotate(a);
+        ft_reverse_rotate(a, b);
     else if (!ft_strcmp(line, "rrb"))
-        ft_reverse_rotate(b);
+        ft_reverse_rotate(b, a);
     else if (!ft_strcmp(line, "rrr"))
     {
-        ft_reverse_rotate(a);
-        ft_reverse_rotate(b);
+        ft_reverse_rotate(a, b);
+        ft_reverse_rotate(b, a);
     }
     else
     {

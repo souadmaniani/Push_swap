@@ -1,14 +1,15 @@
 #include "../push_swap.h"
 // sa sb ss pa pb ra rb rr rra rrb rrr
-void ft_swap(t_stackelem *head)
+void ft_swap(t_stackelem **head, t_stackelem **b)
 {
     int tmp;
-    
-    if (head && head->next)
+    (void)b;
+
+    if (*head && (*head)->next)
     {
-        tmp = head->data;
-        head->data = head->next->data;
-        head->next->data = tmp;
+        tmp = (*head)->data;
+        (*head)->data = (*head)->next->data;
+        (*head)->next->data = tmp;
     }
 }
 
@@ -25,10 +26,11 @@ void ft_push(t_stackelem **dest, t_stackelem **src)
     }
 }
 
-void ft_rotate(t_stackelem **head)
+void ft_rotate(t_stackelem **head, t_stackelem **b)
 {
     int data;
     t_stackelem *new;
+    (void)b;
 
     if (*head && (*head)->next)
     {
@@ -38,10 +40,11 @@ void ft_rotate(t_stackelem **head)
     }
 }
 
-void ft_reverse_rotate(t_stackelem **head)
+void ft_reverse_rotate(t_stackelem **head, t_stackelem **b)
 {
     int data;
     t_stackelem *new;
+    (void)b;
 
     if (*head && (*head)->next)
     {
