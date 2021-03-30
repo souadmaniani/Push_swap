@@ -1,111 +1,144 @@
 #include "push_swap.h"
 
-int stackmax(t_stackelem *a)
-{
-    int maxim = a->data;
-    a = a->next;
-    while (a)
-    {
-        if (a->data > maxim)
-            maxim = a->data;
-        a = a->next;
-    }
-    return (maxim);
-    
-}
-
-int stackmin(t_stackelem *a)
-{
-    int minim = a->data;
-    a = a->next;
-    while (a)
-    {
-        if (a->data < minim)
-            minim = a->data;
-        a = a->next;
-    }
-    return (minim);
-    
-}
-
-void	stackiter(void (*f)(t_stackelem **, t_stackelem **),
-    t_stackelem **a, t_stackelem **b, char *str)
-{
-
-    f(a, b);
-    write(1, str, ft_strlen(str));
-}
-
 void sort_three(t_stackelem **a, t_stackelem **b)
 {
     t_elem elem;
 
-    elem.first = (*a)->data;
-    elem.second = (*a)->next->data;
-    elem.third = (*a)->next->next->data;
+    elem.st = (*a)->data;
+    elem.nd = (*a)->next->data;
+    elem.rd = (*a)->next->next->data;
 
-    if (elem.first == stackmax(*a))
+    if (elem.st == stackmax(*a))
     {
         stackiter(ft_rotate, a, b, "ra\n");
-        if (!is_sortded(*a))
+        if (!is_sorted(*a))
             stackiter(ft_swap, a, b,"sa\n");
     }
-    else if (elem.first == stackmin(*a))
+    else if (elem.st == stackmin(*a))
     {
         stackiter(ft_reverse_rotate, a, b,"rra\n");
         stackiter(ft_swap, a, b, "sa\n");
     }
     else
     {
-        if (elem.first < elem.third)
+        if (elem.st < elem.rd)
             stackiter(ft_swap, a, b,"sa\n");
         else
             stackiter(ft_reverse_rotate, a, b,"rra\n");
     }
 }
+t_stackelem *getpointer(t_stackelem *a, int index)
+{
+    int i;
+    t_stackelem *tmp;
+
+    tmp = a;
+    i = 0;
+    while (tmp)
+    {
+    	if (i == index)
+    		return tmp;
+		i++;
+		tmp = tmp->next;
+    }
+    return 0;
+}
+
+void elem_order(t_stackelem *a, t_elem *elem)
+{
+	t_stackelem *ptr;
+	t_stackelem *copy = NULL;
+
+	
+	copy = stackcopy(&copy, a);
+    elem->st = stackmin(a);
+    elem->fth = stackmax(a);
+    ptr = stack_search(copy, elem->st);
+    ptr->data = INT_MAX;
+    ptr = stack_search(copy, elem->fth);
+    ptr->data = INT_MAX;
+    elem->nd = stackmin(copy);
+    ptr = stack_search(copy, elem->nd);
+    ptr->data = INT_MAX;
+    elem->rd = stackmin(copy);
+    ptr = stack_search(copy, elem->rd);
+    ptr->data = INT_MAX;
+    elem->rth = stackmin(copy);
+}
 
 void sort_five(t_stackelem **a, t_stackelem **b)
 { 
-    t_stackelem *ptr;
-    int         *tmp;
+    t_stackelem ptr;
     int         i;
     int         min;
+    t_elem      elem;
 
-    ptr = *a;
-    tmp = malloc(4 * sizeof(int));
-    min = stackmin(*a);
-    i = -1;
-    while (ptr)
-    {
-        if (ptr->data != min)
-           tmp[i] = ptr->data;
-        ptr = ptr->next;
+    // elem_order(*a, &elem);
+    elem_order(*a, &elem);
+    stackiter(ft_push, b, a, "pb\n");
+    stackiter(ft_push, b, a, "pb\n");
+    if (!is_sorted(*a))
+        sort_three(a, b);
+	if ((*a)->data == elem.rd)
+    {// 3 4 5
+        stackiter(ft_push, a, b, "pa\n");
+        stackiter(ft_push, a, b, "pa\n");
+        if (!is_sorted(*a))
+            stackiter(ft_swap, a, b, "sa\n");
     }
-    stackiter(ft_push, b, a, "pb\n");
-    stackiter(ft_push, b, a, "pb\n");
-    sort_three(a, b);
-    //1 2 3|1 2 4|1 2 5|1 3 4|1 3 5|1 4 5;
-    if ((*a)->data == stackmin(*a))
-    {
+	else if ((*a)->data == elem.nd)
+    { // 2 3 4-> 1 5| 2 3 5-> 1 4| 2 4 5-> 1 3
+        if ((*b)->data == elem.fth || (*b)->next->data == elem.fth)
+		{
+			stackiter(ft_push,a, b, "pa\n");
+			if ((*b)->data == elem.fth)
+			{
+				stackiter(ft_push, a, b, "pa\n");
+				stackiter(ft_rotate, a, b, "ra\n");
+			}
+			else
+			{
+				stackiter(ft_rotate, a, b, "ra\n");
+				stackiter(ft_push, a, b, "pa\n");
+			}
+		}
+		else if ((*b)->data == elem.rd || (*b)->next->data == elem.rd)
+		{
+			if ((*b)->next->data == elem.rd)
+				stackiter(ft_swap, b, a, "sb\n");
+			stackiter(ft_push, a, b, "pa\n");
+			stackiter(ft_swap, a, b, "sa\n");
+			stackiter(ft_push, a, b, "pa\n");
+		}
+		else
+		{
+			if ((*b)->data == elem.st)
+				stackiter(ft_swap, b, a, "sb\n");
+			stackiter(ft_reverse_rotate, a, b, "rra\n");
+			stackiter(ft_push, a, b, "pa\n");
+			stackiter(ft_rotate, a, b, "ra\n");
+			stackiter(ft_rotate, a, b, "ra\n");
+			stackiter(ft_push, a, b, "pa\n");
+		}
+    }
+    else if ((*b)->next->data == elem.st)
+    { // 1 2 3|1 2 4|1 2 5|1 3 4|1 3 5|1 4 5;
+        
         // 6 CASES
     }
-    else { //2 3 4|2 3 5|2 4 5
-
-    }
-    //3 4 5
+    
 }
 
 void push_swap(t_stackelem **a, t_stackelem **b, int len)
 {
-    if (!is_sortded(*a))
+    if (!is_sorted(*a))
     {
         if (len == 2)
             stackiter(ft_swap, a, b, "sa\n");
         if (len == 3) // 2 instructions
             sort_three(a, b);
         if (len == 5) // 12 instructions
-        {
-        }
+            sort_five(a, b);
     }
 }
 
@@ -116,11 +149,27 @@ int main(int argc, char *argv[])
     t_stackelem *a;
     t_stackelem *b;
     char *line;
-    
-    if (argc > 1)
+	char **args;
+    int len;
+    // char **t = malloc(7 * sizeof(char*));
+    // t[0] = ft_strdup("./push_swap");
+    // t[1] = ft_strdup("1");
+    // t[2] = ft_strdup("2");
+    // t[3] = ft_strdup("3");
+    // t[4] = ft_strdup("5");
+    // t[5] = ft_strdup("4");
+	// t[6] = NULL;
+	// argc = 6;
+    if (argc >= 2)
     {
         b = NULL;
-        ret = create_stack(&a, argv);
+        if (argc == 2)
+        {
+            args = ft_split(argv[1], ' ', &len);
+            ret = create_stack(&a, args);
+        }
+        else
+            ret = create_stack(&a, argv);
         if(ret == -1)
             return(-1);
         push_swap(&a, &b, argc - 1);

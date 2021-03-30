@@ -12,32 +12,10 @@ t_stackelem	*stacknew(int data)
     return (new);
 }
 
-int	stacksize(t_stackelem *head)
-{
-	int len;
-
-	len = 0;
-	while (head)
-	{
-		head = head->next;
-		len++;
-	}
-	return (len);
-}
-
 void	stackadd_front(t_stackelem **head, t_stackelem *new)
 {
 	new->next = *head;
 	*head = new;
-}
-
-t_stackelem	*stacklast(t_stackelem *head)
-{
-	if (!head)
-		return (0);
-	while (head->next)
-		head = head->next;
-	return (head);
 }
 
 void	stackadd_back(t_stackelem **head, t_stackelem *new)

@@ -9,7 +9,7 @@ int is_duplicate(char *str, char **argv, int index)
     i = 0;
     while (argv[++i])
     {
-        if (!ft_strcmp(str, argv[i]) && index != i)
+        if (!strcmp(str, argv[i]) && index != i)
             return (1);
     }
      return (0);
@@ -25,7 +25,7 @@ int    create_stack(t_stackelem **head, char **argv)
     while (argv[++i])
     {
         if (ft_atoi(argv[i]) == -1 || (!ft_atoi(argv[i])
-            && ft_strcmp(argv[i], "0")) || is_duplicate(argv[i], argv, i))
+            && strcmp(argv[i], "0")) || is_duplicate(argv[i], argv, i))
         {
             write(1, "Error\n", 7);
             return (-1);
@@ -38,7 +38,7 @@ int    create_stack(t_stackelem **head, char **argv)
     return (0);
 }
 
-int is_sortded(t_stackelem *head)
+int is_sorted(t_stackelem *head)
 {
     while (head->next)
     {
@@ -53,6 +53,8 @@ int is_sortded(t_stackelem *head)
 void print_stack(t_stackelem *head)
 {
     char *str;
+    write(1, ft_itoa(head->data), ft_strlen(ft_itoa(head->data)));
+        write(1, "\n", 1);
     while (head)
     {
         str = ft_itoa(head->data);

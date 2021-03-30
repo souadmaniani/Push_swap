@@ -50,10 +50,19 @@ int main(int argc, char *argv[])
     t_stackelem *a;
     t_stackelem *b;
     char *line;
-    if (argc > 1)
+    char **args;
+    int len;
+
+    if (argc >= 2)
     {
         b = NULL;
-        ret = create_stack(&a, argv);
+        if (argc == 2)
+        {
+            args = ft_split(argv[1], ' ', &len);
+            ret = create_stack(&a, args);
+        }
+        else
+            ret = create_stack(&a, argv);
         if(ret == -1)
             return(-1);
         while (get_next_line(0, &line) > 0)
@@ -70,7 +79,7 @@ int main(int argc, char *argv[])
         print_stack(a);
         write(1, "stack b => ", 11);
         print_stack(b);
-        if (is_sortded(a) && !b)
+        if (is_sorted(a) && !b)
             write(1, "OK\n", 3);
         else
             write(1, "KO\n", 3);

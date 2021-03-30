@@ -11,11 +11,13 @@ typedef struct 				s_stackelem
     struct s_stackelem		*next;
 }						    t_stackelem;
 
-typedef struct               s_elem
+typedef struct              s_elem
 {
-    int                      first;
-    int                      second;
-    int                      third;
+    int                     st;
+    int                     nd;
+    int                     rd;
+    int                     rth;
+    int                     fth;
 }                            t_elem;
 
 t_stackelem					*stacknew(int data);
@@ -29,6 +31,8 @@ void	                    stackiter(void (*f)(t_stackelem **, t_stackelem **),
                             t_stackelem **a, t_stackelem **b, char *str);
 int                         stackmax(t_stackelem *a);
 int                         stackmin(t_stackelem *a);
+t_stackelem					*stack_search(t_stackelem *a, int data);
+t_stackelem					*stackcopy(t_stackelem **dest, t_stackelem *src);
 void                        ft_swap(t_stackelem **head, t_stackelem **b);
 void                        ft_push(t_stackelem **dest, t_stackelem **src);
 void                        ft_rotate(t_stackelem **head, t_stackelem **b);
@@ -37,7 +41,8 @@ void                        print_stack(t_stackelem *head);
 int                         is_duplicate(char *str, char **argv, int index);
 int							create_stack(t_stackelem **head, char **argv);
 int							apply_instruction(char *line, t_stackelem **a, t_stackelem **b);
-int							is_sortded(t_stackelem *head);
+int							is_sorted(t_stackelem *head);
+void						elem_order(t_stackelem *a, t_elem *elem);
 #endif
 
 // char **t = malloc(4*sizeof(char*));
