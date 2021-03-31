@@ -31,7 +31,7 @@ void	                    stackiter(void (*f)(t_stackelem **, t_stackelem **),
                             t_stackelem **a, t_stackelem **b, char *str);
 int                         stackmax(t_stackelem *a);
 int                         stackmin(t_stackelem *a);
-t_stackelem					*stack_search(t_stackelem *a, int data);
+t_stackelem					*stackchr(t_stackelem *a, int data);
 t_stackelem					*stackcopy(t_stackelem **dest, t_stackelem *src);
 void                        ft_swap(t_stackelem **head, t_stackelem **b);
 void                        ft_push(t_stackelem **dest, t_stackelem **src);

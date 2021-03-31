@@ -20,12 +20,12 @@ int    create_stack(t_stackelem **head, char **argv)
     t_stackelem *new;
     int i;
 
-    i = 0;
+    i = -1;
     *head = NULL;
     while (argv[++i])
     {
         if (ft_atoi(argv[i]) == -1 || (!ft_atoi(argv[i])
-            && strcmp(argv[i], "0")) || is_duplicate(argv[i], argv, i))
+            && ft_strcmp(argv[i], "0")) || is_duplicate(argv[i], argv, i))
         {
             write(1, "Error\n", 7);
             return (-1);
@@ -53,14 +53,15 @@ int is_sorted(t_stackelem *head)
 void print_stack(t_stackelem *head)
 {
     char *str;
-    write(1, ft_itoa(head->data), ft_strlen(ft_itoa(head->data)));
-        write(1, "\n", 1);
-    while (head)
+    t_stackelem *tmp;
+
+    tmp = head;
+    while (tmp)
     {
-        str = ft_itoa(head->data);
+        str = ft_itoa(tmp->data);
         write(1, str, ft_strlen(str));
         write(1, " ", 1);
-        head = head->next;
+        tmp = tmp->next;
     }
     write(1, "\n", 1);
 }

@@ -62,7 +62,7 @@ int main(int argc, char *argv[])
             ret = create_stack(&a, args);
         }
         else
-            ret = create_stack(&a, argv);
+            ret = create_stack(&a, argv + 1);
         if(ret == -1)
             return(-1);
         while (get_next_line(0, &line) > 0)
