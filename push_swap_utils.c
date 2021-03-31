@@ -24,8 +24,9 @@ int    create_stack(t_stackelem **head, char **argv)
     *head = NULL;
     while (argv[++i])
     {
-        if (ft_atoi(argv[i]) == -1 || (!ft_atoi(argv[i])
-            && ft_strcmp(argv[i], "0")) || is_duplicate(argv[i], argv, i))
+        if ((ft_atoi(argv[i]) == -1 && ft_strcmp(argv[i], "-1") )
+        || (!ft_atoi(argv[i]) && ft_strcmp(argv[i], "0"))
+        || is_duplicate(argv[i], argv, i))
         {
             write(1, "Error\n", 7);
             return (-1);

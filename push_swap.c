@@ -27,22 +27,6 @@ void sort_three(t_stackelem **a, t_stackelem **b)
             stackiter(ft_reverse_rotate, a, b,"rra\n");
     }
 }
-t_stackelem *getpointer(t_stackelem *a, int index)
-{
-    int i;
-    t_stackelem *tmp;
-
-    tmp = a;
-    i = 0;
-    while (tmp)
-    {
-    	if (i == index)
-    		return tmp;
-		i++;
-		tmp = tmp->next;
-    }
-    return 0;
-}
 
 void elem_order(t_stackelem *a, t_elem *elem)
 {
@@ -212,6 +196,7 @@ void sort_five(t_stackelem **a, t_stackelem **b)
     }
 }
 
+// 700 instructions
 void sort_hundred(t_stackelem **a, t_stackelem **b)
 {
     
