@@ -14,7 +14,7 @@ int partition(int *arr, int l, int h)
     int pivot = arr[l];
     int i = l;
     int j = h;
-
+    // pour chaque boucle pivot is sorted
     while (i < j)
     {
         while (arr[i] <= pivot && i < h)
