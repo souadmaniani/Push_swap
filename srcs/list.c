@@ -54,7 +54,7 @@ int	stackdelete_last(t_stackelem **head)
 		tmp = tmp->next;
 	data = tmp->next->data;
 	last = tmp;
-	free(tmp->next->next);
+	free(tmp->next);
 	last->next = NULL;
 	return (data);
 }

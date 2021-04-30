@@ -47,7 +47,6 @@ int stackmin(t_stackelem *a)
         a = a->next;
     }
     return (minim);
-    
 }
 
 void	stackiter(void (*f)(t_stackelem **, t_stackelem **),

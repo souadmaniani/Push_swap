@@ -43,6 +43,9 @@ int							create_stack(t_stackelem **head, char **argv);
 int							apply_instruction(char *line, t_stackelem **a, t_stackelem **b);
 int							is_sorted(t_stackelem *head);
 void						elem_order(t_stackelem *a, t_elem *elem);
+int                         stackmin_index(t_stackelem *a);
+void                         stackdelete_elem(t_stackelem **a, t_stackelem *elem);
+t_stackelem                 *stackelem_byindex(t_stackelem **a, int index);
 #endif
 
 // char **t = malloc(4*sizeof(char*));

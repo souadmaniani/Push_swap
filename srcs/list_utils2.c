@@ -11,7 +11,6 @@ t_stackelem *stackchr(t_stackelem *a, int data)
     return 0;
 }
 
-
 t_stackelem *stackcopy(t_stackelem **dest, t_stackelem *src)
 {
     int         len;
@@ -28,4 +27,56 @@ t_stackelem *stackcopy(t_stackelem **dest, t_stackelem *src)
         src = src->next;
     }
     return (*dest);
+}
+
+int stackmin_index(t_stackelem *a)
+{
+    int min;
+    int index;
+
+    min =  stackmin(a);
+    index = 0;
+    while (a)
+    {
+        if (a->data == min)
+            return (index);
+        index++;
+        a = a->next;
+    }
+    return (index);
+}
+
+void  stackdelete_elem(t_stackelem **head, t_stackelem *elem)
+{
+    t_stackelem *tmp;
+    t_stackelem *next;
+    t_stackelem *prev;
+
+    tmp = *head;
+    if (elem->data == tmp->data)
+        stackdelete_head(head);
+    while (tmp->next)
+    {
+        prev = tmp;
+        tmp = tmp->next;
+        next = tmp->next;
+        if (tmp && tmp->data == elem->data)
+        {
+            prev->next = next;
+            free(tmp);
+            break ;
+        }
+    }
+}
+
+t_stackelem *stackelem_byindex(t_stackelem **a, int index)
+{
+    t_stackelem *tmp;
+    int i;
+
+    tmp = *a;
+    i = -1;
+    while (++i < index)
+        tmp = tmp->next;
+    return (tmp);
 }

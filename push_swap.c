@@ -199,7 +199,71 @@ void sort_five(t_stackelem **a, t_stackelem **b)
 // 700 instructions
 void sort_hundred(t_stackelem **a, t_stackelem **b)
 {
-    
+    int			index;
+    int			i;
+	t_stackelem *elem;
+	int			middle;
+	int			j;
+	int head_data;
+
+	i = 0;
+	// PUSH TO B HALF MIN
+    while (i < 3)
+    {
+		// GET INDEX OF MIN
+        index = stackmin_index(*a);
+		// GET MIDDLE OF STACK
+		middle = stacksize(*a) / 2;
+		j = -1;
+		// COMPARE INDEX WITH MIDDLE
+		if (index < middle)
+		{
+			while (++j < index)
+				ft_rotate(a, b);
+		}
+		else
+		{
+			while (++j < index)
+				ft_reverse_rotate(a, b);
+		}
+		ft_push(b, a);
+		i++;
+    }
+	// FREE STACK B
+	i = -1;
+	while (++i < 3)
+		ft_push(a, b);
+	while (i++ < 6)
+		ft_rotate(a, b);
+	
+	// PUSH TO B THE OTHER HALF MIN
+	i = -1;
+	while (++i < 3)
+	{
+		// index = stackmin_index(*a);
+		// j = -1;
+		// while (++j < index)
+		// 	ft_rotate(a, b);
+		ft_push(b, a);
+	}
+	// SORT THE FIRST MIDDLE
+	i = -1;
+	ft_swap(a, b);
+	while (++i < 2)
+		ft_rotate(a, b);
+	i = -1;
+	while (++i < 3)
+	{
+		index = stackmin_index(*b);
+		j = -1;
+		while (++j < index)
+			ft_rotate(b, a);
+		ft_push(a, b);
+	}
+	write(1, "stack a => ", 11);
+	print_stack(*a);
+	write(1, "stack b => ", 11);
+	print_stack(*b);
 }
 
 void push_swap(t_stackelem **a, t_stackelem **b, int len)
@@ -212,7 +276,7 @@ void push_swap(t_stackelem **a, t_stackelem **b, int len)
             sort_three(a, b);
         if (len == 5) // 12 instructions
             sort_five(a, b);
-        if (len == 100) // Less than 700
+        else // Less than 700
             sort_hundred(a, b);
     }
 }
