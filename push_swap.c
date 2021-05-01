@@ -1,4 +1,6 @@
 #include "push_swap.h"
+// LESS THAN 1100: FOR 100 NUMBER
+// LESS THAN 8500: FOR 500 NUMBER
 
 void sort_three(t_stackelem **a, t_stackelem **b)
 {
@@ -196,19 +198,28 @@ void sort_five(t_stackelem **a, t_stackelem **b)
     }
 }
 
-// 700 instructions
-void sort_hundred(t_stackelem **a, t_stackelem **b)
+void print_stacks(char *str, t_stackelem *a, t_stackelem *b)
 {
-    int			index;
-    int			i;
-	t_stackelem *elem;
-	int			middle;
-	int			j;
-	int head_data;
+        write(1, str, ft_strlen(str));
+    	write(1, "      stack a => ", 17);
+        print_stack(a);
+        write(1, "      stack b => ", 17);
+        print_stack(b);
+}
+void sort_hundred(t_stackelem **a, t_stackelem **b, int mid)
+{
+    int			    index;
+    int			    i;
+	t_stackelem     *elem;
+	int			    middle;
+	int			    j;
+    int             len;
 
 	i = 0;
-	// PUSH TO B HALF MIN
-    while (i < 3)
+    len = stacksize(*a);
+    // print_stacks("etat initial: \n", *a, *b);
+	// etape1=> PUSH TO B HALF MIN
+    while (i < mid)
     {
 		// GET INDEX OF MIN
         index = stackmin_index(*a);
@@ -219,51 +230,69 @@ void sort_hundred(t_stackelem **a, t_stackelem **b)
 		if (index < middle)
 		{
 			while (++j < index)
-				ft_rotate(a, b);
+				stackiter(ft_rotate, a, b, "ra\n");
+                // ft_rotate(a, b);
 		}
 		else
 		{
-			while (++j < index)
-				ft_reverse_rotate(a, b);
+			while (index++ < stacksize(*a))
+				stackiter(ft_reverse_rotate, a, b, "rra\n");
+                // ft_reverse_rotate(a, b);
 		}
-		ft_push(b, a);
+        // ft_push(b, a);
+		stackiter(ft_push, b, a, "pb\n");
 		i++;
     }
-	// FREE STACK B
+    // print_stacks("etape1: \n", *a, *b);
+	// // etape2=> FREE STACK B
 	i = -1;
-	while (++i < 3)
-		ft_push(a, b);
-	while (i++ < 6)
-		ft_rotate(a, b);
-	
-	// PUSH TO B THE OTHER HALF MIN
+	while (++i < mid)
+		stackiter(ft_push, a, b, "pa\n");
+        // ft_push(a, b);
+    if (len % 2 != 0)
+    {
+        len = len - 1;
+        mid = mid + 1;
+    }
+    // should be optimised (demi tour {i = mid})
+	while (i++ < len)
+		stackiter(ft_rotate, a, b, "ra\n");
+        // ft_rotate(a, b);
+	// print_stacks("etape2: \n", *a, *b);
+	// // etape3=> PUSH TO B THE OTHER HALF MIN
 	i = -1;
-	while (++i < 3)
-	{
-		// index = stackmin_index(*a);
-		// j = -1;
-		// while (++j < index)
-		// 	ft_rotate(a, b);
-		ft_push(b, a);
-	}
-	// SORT THE FIRST MIDDLE
+	while (++i < mid)
+		stackiter(ft_push, b, a, "pb\n");
+        // ft_push(b, a);
+    // print_stacks("etape3: \n", *a, *b);
+	// // etape4=> SORT THE FIRST MIDDLE
 	i = -1;
-	ft_swap(a, b);
-	while (++i < 2)
-		ft_rotate(a, b);
-	i = -1;
-	while (++i < 3)
+	while (++i < mid)
 	{
 		index = stackmin_index(*b);
+        middle = stacksize(*b) / 2;
 		j = -1;
-		while (++j < index)
-			ft_rotate(b, a);
-		ft_push(a, b);
+        if (index < middle)
+		{
+			while (++j < index)
+				stackiter(ft_rotate, b, a, "rb\n");
+                // ft_rotate(b, a);
+		}
+		else
+		{
+			while (index++ < stacksize(*b))
+				stackiter(ft_reverse_rotate, b, a, "rrb\n");
+                // ft_reverse_rotate(b, a);
+		}
+		// while (++j < index)
+        //     ft_rotate(b, a);
+		// 	// stackiter(ft_rotate, b, a, "rb\n");
+        // ft_push(a, b);
+        // ft_rotate(a, b);
+		stackiter(ft_push, a, b, "pa\n");
+        stackiter(ft_rotate, a, b, "ra\n");
 	}
-	write(1, "stack a => ", 11);
-	print_stack(*a);
-	write(1, "stack b => ", 11);
-	print_stack(*b);
+    // print_stacks("etape4: \n", *a, *b);
 }
 
 void push_swap(t_stackelem **a, t_stackelem **b, int len)
@@ -277,7 +306,7 @@ void push_swap(t_stackelem **a, t_stackelem **b, int len)
         if (len == 5) // 12 instructions
             sort_five(a, b);
         else // Less than 700
-            sort_hundred(a, b);
+            sort_hundred(a, b, stacksize(*a) / 2);
     }
 }
 
@@ -290,15 +319,19 @@ int main(int argc, char *argv[])
     char *line;
 	char **args;
     int len;
-    // char **t = malloc(7 * sizeof(char*));
+    // char **t = malloc(10 * sizeof(char*));
     // t[0] = ft_strdup("./push_swap");
-    // t[1] = ft_strdup("1");
-    // t[2] = ft_strdup("2");
+    // t[1] = ft_strdup("5");
+    // t[2] = ft_strdup("4");
     // t[3] = ft_strdup("3");
-    // t[4] = ft_strdup("5");
-    // t[5] = ft_strdup("4");
-	// t[6] = NULL;
-	// argc = 6;
+    // t[4] = ft_strdup("1");
+    // t[5] = ft_strdup("2");
+    // t[6] = ft_strdup("7");
+    // t[7] = ft_strdup("8");
+    // t[8] = ft_strdup("9");
+	// t[9] = NULL;
+	// argc = 10;
+    // argv = t;
     int i = 0;
     if (argc >= 2)
     {

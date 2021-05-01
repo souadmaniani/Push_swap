@@ -52,7 +52,6 @@ int main(int argc, char *argv[])
     char *line;
     char **args;
     int len;
-
     if (argc >= 2)
     {
         b = NULL;

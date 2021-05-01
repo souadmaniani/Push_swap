@@ -46,6 +46,22 @@ int stackmin_index(t_stackelem *a)
     return (index);
 }
 
+int stackmax_index(t_stackelem *a)
+{
+    int max;
+    int index;
+
+    max =  stackmax(a);
+    index = 0;
+    while (a)
+    {
+        if (a->data == max)
+            return (index);
+        index++;
+        a = a->next;
+    }
+    return (index);
+}
 void  stackdelete_elem(t_stackelem **head, t_stackelem *elem)
 {
     t_stackelem *tmp;
