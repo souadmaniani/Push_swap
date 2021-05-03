@@ -96,3 +96,16 @@ t_stackelem *stackelem_byindex(t_stackelem **a, int index)
         tmp = tmp->next;
     return (tmp);
 }
+
+int stackindex(t_stackelem *a, int value)
+{
+    int index;
+
+    index = 0;
+    while (a->data != value)
+    {
+        a = a->next;
+        index++;
+    }
+    return (index);
+}

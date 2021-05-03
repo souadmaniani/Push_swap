@@ -47,6 +47,7 @@ int                         stackmin_index(t_stackelem *a);
 int                         stackmax_index(t_stackelem *a);
 void                        stackdelete_elem(t_stackelem **a, t_stackelem *elem);
 t_stackelem                 *stackelem_byindex(t_stackelem **a, int index);
+int                         stackindex(t_stackelem *a, int value);
 #endif
 
 // char **t = malloc(4*sizeof(char*));

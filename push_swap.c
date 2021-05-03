@@ -1,6 +1,7 @@
 #include "push_swap.h"
 // LESS THAN 1100: FOR 100 NUMBER
 // LESS THAN 8500: FOR 500 NUMBER
+#include <limits.h>
 
 void sort_three(t_stackelem **a, t_stackelem **b)
 {
@@ -206,6 +207,102 @@ void print_stacks(char *str, t_stackelem *a, t_stackelem *b)
         write(1, "      stack b => ", 17);
         print_stack(b);
 }
+
+t_stackelem  *stackchange_value(t_stackelem *a, int value)
+{
+    t_stackelem *tmp;
+    t_stackelem *copy = NULL;
+    copy = stackcopy(&copy, a);
+    tmp = copy;
+    while (tmp->data != value)
+       tmp= tmp->next;
+    tmp->data = INT_MIN;
+    return (copy);
+    
+}
+
+int *getLargestHalf(t_stackelem *a)
+{
+    int         *tmp;
+    int         max;
+    int         middle;
+    int         *arr;
+    int         i;
+    t_stackelem *copy = NULL;
+
+    middle = stacksize(a) / 2;
+    i = 0;
+    arr = malloc(middle * sizeof(int));
+    tmp = malloc(middle * sizeof(int));
+    copy = stackcopy(&copy, a);
+    while (i < middle)
+    {
+        max = stackmax(copy);
+        tmp[i++] = max;
+        copy = stackchange_value(copy, max);
+    }
+    i = 0;
+    while (middle--)
+    {
+        arr[i] = tmp[middle];
+        i++;
+    }
+    return (arr);
+}
+
+t_stackelem *stackcopyHalf(t_stackelem **dest, t_stackelem *src)
+{
+    int         mid;
+    int         i;
+    t_stackelem *new;
+
+    i = -1;
+    mid = stacksize(src) / 2;
+    while (++i < mid)
+        src = src->next;
+    while (src)
+    {
+        new = stacknew(src->data);
+        if (!new)
+            return (0);
+        stackadd_back(dest, new);
+        src = src->next;
+    }
+    return (*dest);
+}
+
+int *getlastLargestHalf(t_stackelem *a)
+{
+    int         *tmp;
+    int         max;
+    int         middle;
+    int         *arr;
+    int         i;
+    t_stackelem *copy = NULL;
+
+    middle = stacksize(a) / 2;
+    if (stacksize(a) % 2 != 0)
+        middle = middle + 1;
+    i = 0;
+    arr = malloc(middle * sizeof(int));
+    tmp = malloc(middle * sizeof(int));
+    copy = stackcopyHalf(&copy, a);
+    middle = stacksize(copy);
+    while (i < middle)
+    {
+        max = stackmax(copy);
+        tmp[i++] = max;
+        copy = stackchange_value(copy, max);
+    }
+    i = 0;
+    while (middle--)
+    {
+        arr[i] = tmp[i];
+        i++;
+    }
+    return (arr);
+}
+
 void sort_hundred(t_stackelem **a, t_stackelem **b, int mid)
 {
     int			    index;
@@ -214,15 +311,17 @@ void sort_hundred(t_stackelem **a, t_stackelem **b, int mid)
 	int			    middle;
 	int			    j;
     int             len;
+    int             *tab;
 
 	i = 0;
     len = stacksize(*a);
+    tab = getLargestHalf(*a);
     // print_stacks("etat initial: \n", *a, *b);
 	// etape1=> PUSH TO B HALF MIN
     while (i < mid)
     {
 		// GET INDEX OF MIN
-        index = stackmin_index(*a);
+        index = stackindex(*a, tab[i]);
 		// GET MIDDLE OF STACK
 		middle = stacksize(*a) / 2;
 		j = -1;
@@ -255,43 +354,28 @@ void sort_hundred(t_stackelem **a, t_stackelem **b, int mid)
         mid = mid + 1;
     }
     // should be optimised (demi tour {i = mid})
-	while (i++ < len)
-		stackiter(ft_rotate, a, b, "ra\n");
+	// while (i++ < len)
+	// 	stackiter(ft_rotate, a, b, "ra\n");
         // ft_rotate(a, b);
 	// print_stacks("etape2: \n", *a, *b);
 	// // etape3=> PUSH TO B THE OTHER HALF MIN
 	i = -1;
-	while (++i < mid)
-		stackiter(ft_push, b, a, "pb\n");
+	// while (++i < mid)
+	// 	stackiter(ft_push, b, a, "pb\n");
         // ft_push(b, a);
     // print_stacks("etape3: \n", *a, *b);
 	// // etape4=> SORT THE FIRST MIDDLE
 	i = -1;
-	while (++i < mid)
-	{
-		index = stackmin_index(*b);
-        middle = stacksize(*b) / 2;
-		j = -1;
-        if (index < middle)
-		{
-			while (++j < index)
-				stackiter(ft_rotate, b, a, "rb\n");
-                // ft_rotate(b, a);
-		}
-		else
-		{
-			while (index++ < stacksize(*b))
-				stackiter(ft_reverse_rotate, b, a, "rrb\n");
-                // ft_reverse_rotate(b, a);
-		}
-		// while (++j < index)
-        //     ft_rotate(b, a);
-		// 	// stackiter(ft_rotate, b, a, "rb\n");
-        // ft_push(a, b);
-        // ft_rotate(a, b);
-		stackiter(ft_push, a, b, "pa\n");
-        stackiter(ft_rotate, a, b, "ra\n");
-	}
+    tab = getlastLargestHalf(*a);
+    middle = stacksize(*a) / 2;
+    // print_stacks("etape3: \n", *a, *b);
+    while (++i < mid)
+    {
+		index = stackindex(*a, tab[i]);
+		
+    }
+    // print_stacks("etape1: \n", *a, *b);
+	// // etape2=> FREE STACK B
     // print_stacks("etape4: \n", *a, *b);
 }
 
