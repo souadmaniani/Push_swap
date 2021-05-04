@@ -276,6 +276,8 @@ void sort_hundred(t_stackelem **a, t_stackelem **b, int half)
     t_stackelem     *tmp;
     int             mid;
     int             bottom;
+    int             min_indx;
+    int             max_indx;
 
 	i = -1;
     len = stacksize(*a);
@@ -315,51 +317,51 @@ void sort_hundred(t_stackelem **a, t_stackelem **b, int half)
         bottom = 0;
         len = stacksize(*b);
         mid = len / 2;
-        if (abs(stackmin_index(*b) - mid) <= abs(stackmax_index(*b) - mid))
+        print_stacks("etape: \n", *a, *b);
+        printf("mid => %d\n", mid);
+        // ila kan minindex ola maxindex < mid makndirou walo 
+        // ila kan minindex ola maxindex >= mid knchoufo len - 1 - index
+        min_indx = stackmin_index(*b);
+        max_indx = stackmax_index(*b);
+        if (min_indx < mid && max_indx < mid)
         {
-            index = stackmin_index(*b);
-            if (index < mid)
-            {
-                while (index < mid)
-                {
-                        ft_rotate(b, a);
-                        index++;
-                }
-            }
-            else
-            {
-                while (index < len)
-                {
-                    ft_reverse_rotate(b, a);
-                    index++;
-                }
-            }
-            bottom = 1;
+            index = (min_indx < max_indx) ? min_indx : max_indx;
+            // rotation while (index < mid)
         }
         else
         {
-            index = stackmax_index(*b);
-            if (index < mid)
+            if (min_indx >= mid && max_indx >= mid)
             {
-                while (index < mid)
+                index = (min_indx > max_indx) ? min_indx : max_indx;
+                 // reverse rotation while (index < len)
+            }
+            else if  (min_indx < mid && max_indx >= mid)
+            {
+                if (min_indx < len - 1 - max_indx)
                 {
-                        ft_rotate(b, a);
-                        index++;
+                    index = min_indx;
+                    // rotation while (index < mid)
+                }
+                else
+                {
+                    index = max_indx;
+                    // reverse rotation while (index < len)
                 }
             }
             else
             {
-                while (index < len)
+                if (max_indx < len - 1 - min_indx)
                 {
-                    ft_reverse_rotate(b, a);
-                    index++;
+                    index = max_indx;
+                    // rotation while (index < mid)
+                }
+                else
+                {
+                    index = min_indx;
+                    // reverse rotation while (index < len)
                 }
             }
         }
-       ft_push(a, b);
-        if (bottom)
-            ft_rotate(a, b);
-       print_stacks("etape: \n", *a, *b);
     }
     print_stacks("etape2: \n", *a, *b);
 }
@@ -377,6 +379,21 @@ void push_swap(t_stackelem **a, t_stackelem **b, int len)
         else // Less than 700
             sort_hundred(a, b, stacksize(*a) / 2);
     }
+}
+
+void free_tab(char ***tab)
+{
+    int i;
+
+    i = 0;
+    while (*tab[i])
+    {
+        free(*tab[i]);
+        *tab[i] = NULL;
+        i++;
+    }
+    free(*tab);
+    **tab = NULL;
 }
 
 int main(int argc, char *argv[])
@@ -410,6 +427,7 @@ int main(int argc, char *argv[])
             args = ft_split(argv[1], ' ', &len);
             ret = create_stack(&a, args);
             argc = len + 1;
+            // FREE ARGS
         }
         else
             ret = create_stack(&a, argv + 1);

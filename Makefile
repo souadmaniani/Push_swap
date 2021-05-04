@@ -10,10 +10,10 @@ all : $(CH_NAME) $(PS_NAME)
 
 $(CH_NAME):$(CH_SRC)
 	@make -C srcs/libft
-	@gcc $(CH_SRC) srcs/libft/libft.a -g -o $(CH_NAME) -fsanitize=address
+	@gcc $(CH_SRC) srcs/libft/libft.a -g -o $(CH_NAME)
 
 $(PS_NAME):$(PS_SRC)
-	@gcc $(PS_SRC) srcs/libft/libft.a -g -o $(PS_NAME) -fsanitize=address
+	@gcc $(PS_SRC) srcs/libft/libft.a -g -o $(PS_NAME)
 	
 clean:
 	@rm -rf checker.dSYM
