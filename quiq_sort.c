@@ -1,6 +1,6 @@
-#include <stdio.h>
+#include "./push_swap.h"
 
-void ft_swap(int *a, int *b)
+void ft_swap_q(int *a, int *b)
 {
     int k;
 
@@ -22,9 +22,9 @@ int partition(int *arr, int l, int h)
         while (arr[j] > pivot && j > l)
             j--;
         if (i < j)
-            ft_swap(&arr[i], &arr[j]);
+            ft_swap_q(&arr[i], &arr[j]);
     }
-    ft_swap(&arr[l], &arr[j]);
+    ft_swap_q(&arr[l], &arr[j]);
     return (j);
 }
 
@@ -41,12 +41,12 @@ int *quiq_sort(int *arr, int l, int h)
     return (arr);
 }
 
-int main(int argc, char*argv[])
-{
-    int i = -1;
-    int table[7] = {9, 8, 10, 3, 5, 2, 1};
-    int *sorted_table = quiq_sort(table, 0, 6);
-    while (++i < 7)
-        printf ("%d ", sorted_table[i]);
-    printf("\n");
-}
+// int main(int argc, char*argv[])
+// {
+//     int i = -1;
+//     int table[7] = {9, 8, 10, 3, 5, 2, 1};
+//     int *sorted_table = quiq_sort(table, 0, 6);
+//     while (++i < 7)
+//         printf ("%d ", sorted_table[i]);
+//     printf("\n");
+// }

@@ -48,6 +48,9 @@ int                         stackmax_index(t_stackelem *a);
 void                        stackdelete_elem(t_stackelem **a, t_stackelem *elem);
 t_stackelem                 *stackelem_byindex(t_stackelem **a, int index);
 int                         stackindex(t_stackelem *a, int value);
+void                        ft_swap_q(int *a, int *b);
+int                         partition(int *arr, int l, int h);
+int                         *quiq_sort(int *arr, int l, int h);
 #endif
 
 // char **t = malloc(4*sizeof(char*));

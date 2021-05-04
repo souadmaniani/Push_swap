@@ -2,9 +2,9 @@ CH_NAME = checker
 PS_NAME = push_swap
 
 
-CH_SRC = checker.c srcs/list.c srcs/list_utils1.c srcs/instructions.c srcs/get_next_line/get_next_line.c push_swap_utils.c
+CH_SRC = checker.c srcs/list.c srcs/list_utils1.c srcs/instructions.c srcs/get_next_line/get_next_line.c push_swap_utils.c 
 
-PS_SRC = push_swap.c srcs/list.c srcs/list_utils1.c srcs/list_utils2.c srcs/instructions.c srcs/get_next_line/get_next_line.c push_swap_utils.c
+PS_SRC = push_swap.c srcs/list.c srcs/list_utils1.c srcs/list_utils2.c srcs/instructions.c srcs/get_next_line/get_next_line.c push_swap_utils.c quiq_sort.c
 
 all : $(CH_NAME) $(PS_NAME)
 
