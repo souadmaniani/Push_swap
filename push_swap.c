@@ -267,14 +267,16 @@ int get_min_indexes(t_stackelem *a, int mid, int len)
     return (len - i - 1);
 }
 
-int get_min_max(t_stackelem **a, t_stackelem **b, int len)
+int sort_part(t_stackelem **a, t_stackelem **b, int len)
 {
     int mid;
     int j;
     int min_indx;
     int max_indx;
     int index;
+    int is_rotate;
 
+    is_rotate = 0;
     while (*b)
     {
         len = stacksize(*b);
@@ -349,12 +351,15 @@ int get_min_max(t_stackelem **a, t_stackelem **b, int len)
         }
         stackiter(ft_push, a, b, "pa\n");
         if (j == -2)
+        {
             stackiter(ft_rotate, a, b, "ra\n");
+            is_rotate++;
+        }
     }
-    return (1);
+    return (is_rotate);
 }
 
-void sort_hundrd_five_h(t_stackelem   **a, t_stackelem    **b, int    half)
+void sort_hundrd(t_stackelem   **a, t_stackelem    **b, int    half)
 {
     int			    index;
     int			    i;
@@ -366,8 +371,6 @@ void sort_hundrd_five_h(t_stackelem   **a, t_stackelem    **b, int    half)
 	i = -1;
     len = stacksize(*a);
     middle = get_middle(*a, len);
-    // if (half == 250)
-    //     half = 100;
     while (++i < half)
     {
         len = stacksize(*a);
@@ -384,14 +387,80 @@ void sort_hundrd_five_h(t_stackelem   **a, t_stackelem    **b, int    half)
         }
         stackiter(ft_push, b, a, "pb\n");
     }
-    get_min_max(a, b, len);
+    sort_part(a, b, len);
     while ((*a)->data < middle)
         stackiter(ft_rotate, a, b, "ra\n");
     while ((*a)->data >= middle)
         stackiter(ft_push, b, a, "pb\n");
-    get_min_max(a, b, len);
+    sort_part(a, b, len);
     while ((*a)->data >= middle)
         stackiter(ft_rotate, a, b, "ra\n");
+}
+
+int get_index(t_stackelem *a, int middle)
+{
+    int index;
+    while (a->data > middle)
+    {
+       a = a->next;
+       index++;
+    }
+    return (index);
+}
+
+void sort_five_h(t_stackelem   **a, t_stackelem    **b, int    quarter)
+{
+    int			    index;
+    int			    i;
+    int             len;
+    int             middle;
+    int             mid;
+    int             j;
+    int             is_rotate;
+
+	i = -1;
+    len = stacksize(*a);
+    middle = get_middle(*a, len);
+    // push the first half
+    while (++i < quarter)
+    {
+        len = stacksize(*a);
+        mid = len / 2;
+        index = get_min_indexes(*a, middle, len);
+        j = -1;
+        if (index < mid)
+            while (++j < index)
+                stackiter(ft_rotate, a, b, "ra\n");
+        else
+        {
+            while (index++ < len)
+                stackiter(ft_reverse_rotate, a, b, "rra\n");
+        }
+        stackiter(ft_push, b, a, "pb\n");
+    }
+    is_rotate = sort_part(a, b, len);
+    while ((*a)->data < quarter - is_rotate)
+        stackiter(ft_rotate, a, b, "ra\n");
+    i = -1;
+    print_stacks("etape1\n", *a, *b);
+    // while (++i < quarter)
+    // {
+    //     index = get_index(*a, middle);
+    //     j = -1;
+    //     while (++j < index)
+    //         stackiter(ft_rotate, a, b, "ra\n");
+    //     stackiter(ft_push, b, a, "pb\n");
+    // }
+    // print_stacks("etape1", *a, *b);
+    // sort_part(a, b, len);
+    // while ((*a)->data < middle)
+    //     stackiter(ft_rotate, a, b, "ra\n");
+    // while ((*a)->data >= middle)
+    //     stackiter(ft_push, b, a, "pb\n");
+    // sort_part(a, b, len);
+    // while ((*a)->data >= middle)
+    //     stackiter(ft_rotate, a, b, "ra\n");
+
 }
 
 void push_swap(t_stackelem **a, t_stackelem **b, int len)
@@ -404,8 +473,10 @@ void push_swap(t_stackelem **a, t_stackelem **b, int len)
             sort_three(a, b);
         else if (len == 5) // 12 instructions
             sort_five(a, b);
-        else
-            sort_hundrd_five_h(a, b, stacksize(*a) / 2);
+        else if (len == 100)
+            sort_hundrd(a, b, stacksize(*a) / 2);
+        else if (len == 500)
+             sort_five_h(a, b, stacksize(*a) / 5);
     }
 }
 
