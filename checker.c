@@ -74,10 +74,10 @@ int main(int argc, char *argv[])
             }
             free(line);
         }
-        write(1, "stack a => ", 11);
-        print_stack(a);
-        write(1, "stack b => ", 11);
-        print_stack(b);
+        // write(1, "stack a => ", 11);
+        // print_stack(a);
+        // write(1, "stack b => ", 11);
+        // print_stack(b);
         if (is_sorted(a) && !b)
             write(1, "OK\n", 3);
         else
