@@ -2,3 +2,8 @@
 - make re && ARG="5 4 3 1 2 7 8 9" ; ./push_swap $ARG | ./checker $ARG
 make[1]: Nothing to be done for `all'.
 Error
+
+nchri l3ibat l dar (mynz, ......)
+nchri l nezha l3iba
+a ykhssni n9att3 train
+transfer money to cih

@@ -359,6 +359,59 @@ int sort_part(t_stackelem **a, t_stackelem **b, int len)
     return (is_rotate);
 }
 
+int get_index(t_stackelem *a, int middle)
+{
+    int index;
+    while (a->data > middle)
+    {
+       a = a->next;
+       index++;
+    }
+    return (index);
+}
+
+int get_max_indexes(t_stackelem *a, int mid, int len)
+{
+    int index1;
+    int index2;
+    int *arr;
+    int i;
+    int j;
+
+    arr = copystack_arr(a, len);
+    index1 = 0;
+    index2 = 0;
+    i = -1;
+    // get_max_from_top
+    while (arr[++i] <= mid)
+        index1++;
+    // get_max_from_bottom
+    i = 0;
+    while (arr[len - i - 1] <= mid)
+    {
+        index2++;
+        i++;
+    }
+    // free(arr);
+    if (index1 <= index2)
+        return (index1);
+    return (len - i - 1);
+}
+int get_len(t_stackelem *a, int first, int last)
+{
+    int len;
+
+    len = 0;
+    while (a->data != first)
+        a = a->next;
+    while (a->data != last)
+   {
+       len++;
+       a = a->next;
+   }
+    return (len + 1);
+}
+
 void sort_hundrd(t_stackelem   **a, t_stackelem    **b, int    half)
 {
     int			    index;
@@ -397,18 +450,7 @@ void sort_hundrd(t_stackelem   **a, t_stackelem    **b, int    half)
         stackiter(ft_rotate, a, b, "ra\n");
 }
 
-int get_index(t_stackelem *a, int middle)
-{
-    int index;
-    while (a->data > middle)
-    {
-       a = a->next;
-       index++;
-    }
-    return (index);
-}
-
-void sort_five_h(t_stackelem   **a, t_stackelem    **b, int    quarter)
+void sort_five_h(t_stackelem   **a, t_stackelem    **b, int    half)
 {
     int			    index;
     int			    i;
@@ -417,50 +459,44 @@ void sort_five_h(t_stackelem   **a, t_stackelem    **b, int    quarter)
     int             mid;
     int             j;
     int             is_rotate;
+    int             k = 0;
+    int             arr[8][2];
+    int             l;
+    t_stackelem *tmp;
 
-	i = -1;
-    len = stacksize(*a);
-    middle = get_middle(*a, len);
-    // push the first half
-    while (++i < quarter)
+    while (stacksize(*a) > 2)
     {
+        i = -1;
         len = stacksize(*a);
-        mid = len / 2;
-        index = get_min_indexes(*a, middle, len);
-        j = -1;
-        if (index < mid)
-            while (++j < index)
-                stackiter(ft_rotate, a, b, "ra\n");
-        else
+        middle = get_middle(*a, len);
+        while (++i < half)
         {
-            while (index++ < len)
-                stackiter(ft_reverse_rotate, a, b, "rra\n");
+            len = stacksize(*a);
+            mid = len / 2;
+            index = get_min_indexes(*a, middle, len);
+            j = -1;
+            if (index < mid)
+                while (++j < index)
+                    stackiter(ft_rotate, a, b, "ra\n");
+            else
+            {
+                while (index++ < len)
+                    stackiter(ft_reverse_rotate, a, b, "rra\n");
+            }
+            stackiter(ft_push, b, a, "pb\n");
+            if (i == 0)
+                arr[k][1] = (*b)->data;
         }
-        stackiter(ft_push, b, a, "pb\n");
+        half = stacksize(*a) / 2;
+        arr[k][0] = (*b)->data;
+        k++;
     }
-    is_rotate = sort_part(a, b, len);
-    while ((*a)->data < quarter - is_rotate)
-        stackiter(ft_rotate, a, b, "ra\n");
-    i = -1;
-    print_stacks("etape1\n", *a, *b);
-    // while (++i < quarter)
-    // {
-    //     index = get_index(*a, middle);
-    //     j = -1;
-    //     while (++j < index)
-    //         stackiter(ft_rotate, a, b, "ra\n");
-    //     stackiter(ft_push, b, a, "pb\n");
-    // }
-    // print_stacks("etape1", *a, *b);
-    // sort_part(a, b, len);
-    // while ((*a)->data < middle)
-    //     stackiter(ft_rotate, a, b, "ra\n");
-    // while ((*a)->data >= middle)
-    //     stackiter(ft_push, b, a, "pb\n");
-    // sort_part(a, b, len);
-    // while ((*a)->data >= middle)
-    //     stackiter(ft_rotate, a, b, "ra\n");
-
+    k--;
+    if (!is_sorted(*a))
+        stackiter(ft_swap, a, b, "sa\n");
+    // for every fucking chunk if I its length is 2 and is_sorted
+    // do swap and push(1) push(2)
+    // if its len is 1 push
 }
 
 void push_swap(t_stackelem **a, t_stackelem **b, int len)
@@ -475,8 +511,8 @@ void push_swap(t_stackelem **a, t_stackelem **b, int len)
             sort_five(a, b);
         else if (len == 100)
             sort_hundrd(a, b, stacksize(*a) / 2);
-        else if (len == 500)
-             sort_five_h(a, b, stacksize(*a) / 5);
+        else
+             sort_five_h(a, b, stacksize(*a) / 2);
     }
 }
 
