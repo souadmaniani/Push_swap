@@ -509,6 +509,7 @@ void sort_five_h(t_stackelem   **a, t_stackelem    **b, int    half)
     // find middle and push elem greater than midlle
     // tant que j < len_chunk/2
     // repeat finding midpoint in chunk tant que len_chunk != 0
+    // repeat ppushing man A l B if still not working
     
 }
 
