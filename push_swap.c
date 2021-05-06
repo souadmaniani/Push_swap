@@ -450,6 +450,17 @@ void sort_hundrd(t_stackelem   **a, t_stackelem    **b, int    half)
         stackiter(ft_rotate, a, b, "ra\n");
 }
 
+int is_reverse_sorted(t_stackelem *head)
+{
+    while (head->next)
+    {
+        if (head->data < head->next->data)
+            return (0);
+        head = head->next;
+    }
+    return (1);
+}
+
 void sort_five_h(t_stackelem   **a, t_stackelem    **b, int    half)
 {
     int			    index;
@@ -494,9 +505,11 @@ void sort_five_h(t_stackelem   **a, t_stackelem    **b, int    half)
     k--;
     if (!is_sorted(*a))
         stackiter(ft_swap, a, b, "sa\n");
-    // for every fucking chunk if I its length is 2 and is_sorted
-    // do swap and push(1) push(2)
-    // if its len is 1 push
+    // while b is not empty for every chunk
+    // find middle and push elem greater than midlle
+    // tant que j < len_chunk/2
+    // repeat finding midpoint in chunk tant que len_chunk != 0
+    
 }
 
 void push_swap(t_stackelem **a, t_stackelem **b, int len)
