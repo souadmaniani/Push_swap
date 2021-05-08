@@ -527,25 +527,20 @@ void sort_five_h(t_stackelem   **a, t_stackelem    **b, int    half)
         // print_nbr("k ", k);
         while (*b)
         {
-            print_stacks("etat 1: \n", *a, *b);
+            print_stacks("chunk : \n", *a, *b);
             len = stacksize(*b);
             if (is_reverse_sorted(*b, len))
-            {
-                while (len)
-                {
+                while (*b)
                     stackiter(ft_push, a, b, "pa\n");
-                    len--;
-                }
-            }
             else
             {
                 i = -1;
                 len = get_len(*b, arr[k][0], arr[k][1]);
-                middle = get_middle(*b, len);
                 // print_nbr("first ", arr[k][0]);
                 // print_nbr("last ", arr[k][1]);
-                // print_nbr("len ", len);
+                print_nbr("len ", len);
                 // print_nbr("middle ", middle);
+                //while chunk mazal massalat
                 while (len)
                 {
                     // print_nbr("len ", len);
@@ -565,11 +560,14 @@ void sort_five_h(t_stackelem   **a, t_stackelem    **b, int    half)
                     }
                     j = 0;
                     mid = len / 2;
+                    if (len % 2 )
+                        mid--;
+                    print_nbr("mid:", mid);
                     // while mazal chi haja kbar man middle o mazal hna f chunk
                     count = 0;
                     count2 = 0;
                     count3 = 0;
-                    while (stackmax(*b) != middle)
+                    while (j < mid)
                     {
                         // 3 4 5  && 3 4 5 > middle = 2
                         // print_nbr("max_stack ", stackmax(*b));
@@ -601,6 +599,7 @@ void sort_five_h(t_stackelem   **a, t_stackelem    **b, int    half)
                         {
                                 stackiter(ft_push, a, b, "pa\n");
                                 len--;
+                                j++;
                                 if (count3 != -1 && count3 != 0)
                                 {
                                     count3 = count3 + count;
@@ -614,7 +613,6 @@ void sort_five_h(t_stackelem   **a, t_stackelem    **b, int    half)
                             stackiter(ft_rotate, b, a, "rb\n");
                             count3++;
                         }
-                        j++;
                         // print_nbr("count ", count);
                         // print_nbr("count3 ", count3);
                         
