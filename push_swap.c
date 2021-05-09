@@ -539,7 +539,7 @@ void sort_five_h(t_stackelem   **a, t_stackelem    **b, int    half)
         }
         else
         {
-<<<<<<< HEAD
+// <<<<<<< HEAD
             i = -1;
             if (arr[k][1] == 97)
                 print_stacks("stacks: \n", *a, *b);
@@ -553,23 +553,6 @@ void sort_five_h(t_stackelem   **a, t_stackelem    **b, int    half)
                     break ;
                 }
                 else if (len == 2)
-=======
-            print_stacks("chunk : \n", *a, *b);
-            len = stacksize(*b);
-            if (is_reverse_sorted(*b, len))
-                while (*b)
-                    stackiter(ft_push, a, b, "pa\n");
-            else
-            {
-                i = -1;
-                len = get_len(*b, arr[k][0], arr[k][1]);
-                // print_nbr("first ", arr[k][0]);
-                // print_nbr("last ", arr[k][1]);
-                print_nbr("len ", len);
-                // print_nbr("middle ", middle);
-                //while chunk mazal massalat
-                while (len)
->>>>>>> 5cd5ee1a6aef0641fc943d8ce0a18d902e6c6b17
                 {
                     if ((*b)->data < (*b)->next->data)
                         stackiter(ft_swap, b, a, "sb\n");
@@ -611,20 +594,8 @@ void sort_five_h(t_stackelem   **a, t_stackelem    **b, int    half)
                         stackiter(ft_rotate, b, a, "rb\n");
                         count++;
                     }
-<<<<<<< HEAD
+// <<<<<<< HEAD
                     else if ((*b)->data > middle && (*b)->data == stackmax(*b))
-=======
-                    j = 0;
-                    mid = len / 2;
-                    if (len % 2 )
-                        mid--;
-                    print_nbr("mid:", mid);
-                    // while mazal chi haja kbar man middle o mazal hna f chunk
-                    count = 0;
-                    count2 = 0;
-                    count3 = 0;
-                    while (j < mid)
->>>>>>> 5cd5ee1a6aef0641fc943d8ce0a18d902e6c6b17
                     {
                         stackiter(ft_push, a, b, "pa\n");
                         len--;
@@ -635,43 +606,8 @@ void sort_five_h(t_stackelem   **a, t_stackelem    **b, int    half)
                             count = 0;
                             while (count3--)
                                 stackiter(ft_reverse_rotate, b, a, "rrb\n");
-<<<<<<< HEAD
+// <<<<<<< HEAD
                         }
-=======
-                                stackiter(ft_push, a, b, "pa\n");
-                                len--;
-                                count2--;
-                            }
-                        }
-                        else if ((*b)->data <= middle)
-                        {
-                            stackiter(ft_rotate, b, a, "rb\n");
-                            count++;
-                            // print_nbr("dkhal hna ", count);
-                        }
-                        else if ((*b)->data > middle && (*b)->data == stackmax(*b))
-                        {
-                                stackiter(ft_push, a, b, "pa\n");
-                                len--;
-                                j++;
-                                if (count3 != -1 && count3 != 0)
-                                {
-                                    count3 = count3 + count;
-                                    count = 0;
-                                    while (count3--)
-                                        stackiter(ft_reverse_rotate, b, a, "rrb\n");
-                                }
-                        }
-                        else if ((*b)->data > middle && (*b)->data != stackmax(*b))
-                        {
-                            stackiter(ft_rotate, b, a, "rb\n");
-                            count3++;
-                        }
-                        // print_nbr("count ", count);
-                        // print_nbr("count3 ", count3);
-                        
-                        print_stacks("etat : \n", *a, *b);
->>>>>>> 5cd5ee1a6aef0641fc943d8ce0a18d902e6c6b17
                     }
                     else if ((*b)->data > middle && (*b)->data != stackmax(*b))
                     {
