@@ -217,11 +217,14 @@ int *copystack_arr(t_stackelem *a, int len)
     int i;
 
     i = 0;
-    arr = malloc(sizeof(int) * len);
-    while (a)
+    arr = malloc(sizeof(int) * (len));
+    while (len)
     {
         arr[i++] = a->data;
         a = a->next;
+        len--;
+        // printf(" i= %d %d\n",i-1, arr[i - 1]);
+        // fflush(stdout);
     }
     return (arr);
 }
@@ -401,18 +404,22 @@ int get_max_indexes(t_stackelem *a, int mid, int len)
         return (index1);
     return (len - i - 1);
 }
-int get_len(t_stackelem *a, int first, int last)
+int get_len(t_stackelem *b, int first, int last)
 {
     int len;
 
     len = 0;
-    while (a->data != first)
-        a = a->next;
-    while (a->data != last)
+    // segfault hna (chi haja ktkhrb9 o last kaywalli f a o kanwaaliw f NULL)
+    printf("first: %d last: %d\n", first, last);
+    fflush(stdout);
+    while (b->data != first)
+        b = b->next;
+    while (b->data != last)
    {
        len++;
-       a = a->next;
+       b = b->next;
    }
+//    print_stack(a);
     return (len + 1);
 }
 
@@ -456,7 +463,7 @@ void sort_hundrd(t_stackelem   **a, t_stackelem    **b, int    half)
 
 int is_reverse_sorted(t_stackelem *head, int len)
 {
-    while (len)
+    while (len > 1)
     {
         if (head->data < head->next->data)
             return (0);
@@ -490,144 +497,128 @@ void sort_five_h(t_stackelem   **a, t_stackelem    **b, int    half)
     int             count2;
     int             count3;
     t_stackelem *tmp;
-    // while (!is_sorted(*a))
-    // {
-        k = 0;
-        while (stacksize(*a) > 2)
+    k = 0;
+    while (stacksize(*a) > 2)
+    {
+        i = -1;
+        len = stacksize(*a);
+        middle = get_middle(*a, len);
+        while (++i < half)
         {
-            i = -1;
             len = stacksize(*a);
-            middle = get_middle(*a, len);
-            while (++i < half)
-            {
-                len = stacksize(*a);
-                mid = len / 2;
-                index = get_min_indexes(*a, middle, len);
-                j = -1;
-                if (index < mid)
-                    while (++j < index)
-                        stackiter(ft_rotate, a, b, "ra\n");
-                else
-                {
-                    while (index++ < len)
-                        stackiter(ft_reverse_rotate, a, b, "rra\n");
-                }
-                stackiter(ft_push, b, a, "pb\n");
-                if (i == 0)
-                    arr[k][1] = (*b)->data;
-            }
-            half = stacksize(*a) / 2;
-            arr[k][0] = (*b)->data;
-            k++;
-        }
-        k--;
-        if (!is_sorted(*a))
-            stackiter(ft_swap, a, b, "sa\n");
-        // print_stacks("etat 1: \n", *a, *b);
-        // print_nbr("k ", k);
-        while (*b)
-        {
-            print_stacks("etat 1: \n", *a, *b);
-            len = stacksize(*b);
-            if (is_reverse_sorted(*b, len))
-            {
-                while (len)
-                {
-                    stackiter(ft_push, a, b, "pa\n");
-                    len--;
-                }
-            }
+            mid = len / 2;
+            index = get_min_indexes(*a, middle, len);
+            j = -1;
+            if (index < mid)
+                while (++j < index)
+                    stackiter(ft_rotate, a, b, "ra\n");
             else
             {
-                i = -1;
-                len = get_len(*b, arr[k][0], arr[k][1]);
+                while (index++ < len)
+                    stackiter(ft_reverse_rotate, a, b, "rra\n");
+            }
+            stackiter(ft_push, b, a, "pb\n");
+            if (i == 0)
+                arr[k][1] = (*b)->data;
+        }
+        half = stacksize(*a) / 2;
+        arr[k][0] = (*b)->data;
+        k++;
+    }
+    k--;
+    if (!is_sorted(*a))
+        stackiter(ft_swap, a, b, "sa\n");
+    // 97 169 124 136 144 30 101 140 53 72 163 10 76 26 181 186 141 31 138 16 45 34 21 115 195 184 126 0 161 65 49 179 197 80 5 28 25 52 145 18 55 78 68 157 166 14 100 117 13 127 114 151 29 102 182 172 131 135 88 139 110 61 44 20 46 64 83 112 9 42 174 59 99 162 23 70 4 24 185 105 75 60 134 7 137 67 87 125 81 121 132 19 38 111 155 89 196 54 2 167 190 129 164 146 84 142 156 11 130 3 118 194 116 1 39 147 41 85 74 170 188 199 12 77 176 96 104 177 40 153 106 90 22 123 103 47 113 189 183 33 119 69 148 160 180 159 58 98 79 120 175 37 82 71 86 109 43 191 95 198 32 165 107 171 128 6 168 152 154 62 122 192 143 73 158 35 63 17 193 149 92 93 66 178 36 51 8 15 57 108 173 27 91 187 133 56 50 48 94 150
+    while (*b)
+    {
+        len = stacksize(*b);
+        if (is_reverse_sorted(*b, len))
+        {
+            while (*b)
+                stackiter(ft_push, a, b, "pa\n");
+        }
+        else
+        {
+            i = -1;
+            if (arr[k][1] == 97)
+                print_stacks("stacks: \n", *a, *b);
+            len = get_len(*b, arr[k][0], arr[k][1]);
+            while (len)
+            {
                 middle = get_middle(*b, len);
-                // print_nbr("first ", arr[k][0]);
-                // print_nbr("last ", arr[k][1]);
-                // print_nbr("len ", len);
-                // print_nbr("middle ", middle);
-                while (len)
+                if (len == 1)
                 {
-                    // print_nbr("len ", len);
-                    middle = get_middle(*b, len);
-                    if (len == 1)
+                    stackiter(ft_push, a, b, "pa\n");
+                    break ;
+                }
+                else if (len == 2)
+                {
+                    if ((*b)->data < (*b)->next->data)
+                        stackiter(ft_swap, b, a, "sb\n");
+                    stackiter(ft_push, a, b, "pa\n");
+                    stackiter(ft_push, a, b, "pa\n");
+                    break ;
+                }
+                mid = len / 2;
+                if (len % 2 == 0)
+                    mid--;
+                // while mazal chi haja kbar man middle o mazal hna f chunk
+                count = 0;
+                count2 = 0;
+                count3 = 0;
+                j = 0;
+                while (j < mid)
+                {
+                    if ((*b)->data > middle && (*b)->next->data > middle)
                     {
-                        stackiter(ft_push, a, b, "pa\n");
-                        break ;
-                    }
-                    else if (len == 2)
-                    {
-                        if ((*b)->data < (*b)->next->data)
-                            stackiter(ft_swap, b, a, "sb\n");
-                        stackiter(ft_push, a, b, "pa\n");
-                        stackiter(ft_push, a, b, "pa\n");
-                        break ;
-                    }
-                    j = 0;
-                    mid = len / 2;
-                    // while mazal chi haja kbar man middle o mazal hna f chunk
-                    count = 0;
-                    count2 = 0;
-                    count3 = 0;
-                    while (stackmax(*b) != middle)
-                    {
-                        // 3 4 5  && 3 4 5 > middle = 2
-                        // print_nbr("max_stack ", stackmax(*b));
-                        // print_nbr("middle ",middle);
-                        if ((*b)->data > middle && (*b)->next->data > middle)
+                        while ((*b)->data > middle && (*b)->next->data > middle)
                         {
-                            while ((*b)->data > middle && (*b)->next->data > middle)
-                            {
-                                stackiter(ft_rotate, b, a, "rb\n");
-                                count2++;
-                            }
+                            stackiter(ft_rotate, b, a, "rb\n");
+                            count2++;
+                        }
+                        stackiter(ft_push, a, b, "pa\n");
+                        len--;
+                        j++;
+                        while (count2)
+                        {
+                            stackiter(ft_reverse_rotate, b, a, "rrb\n");
                             stackiter(ft_push, a, b, "pa\n");
                             len--;
-                            while (count2)
-                            {
-                                stackiter(ft_reverse_rotate, b, a, "rrb\n");
-                                stackiter(ft_push, a, b, "pa\n");
-                                len--;
-                                count2--;
-                            }
+                            count2--;
+                            j++;
                         }
-                        else if ((*b)->data <= middle)
-                        {
-                            stackiter(ft_rotate, b, a, "rb\n");
-                            count++;
-                            // print_nbr("dkhal hna ", count);
-                        }
-                        else if ((*b)->data > middle && (*b)->data == stackmax(*b))
-                        {
-                                stackiter(ft_push, a, b, "pa\n");
-                                len--;
-                                if (count3 != -1 && count3 != 0)
-                                {
-                                    count3 = count3 + count;
-                                    count = 0;
-                                    while (count3--)
-                                        stackiter(ft_reverse_rotate, b, a, "rrb\n");
-                                }
-                        }
-                        else if ((*b)->data > middle && (*b)->data != stackmax(*b))
-                        {
-                            stackiter(ft_rotate, b, a, "rb\n");
-                            count3++;
-                        }
-                        j++;
-                        // print_nbr("count ", count);
-                        // print_nbr("count3 ", count3);
-                        
-                        print_stacks("etat : \n", *a, *b);
                     }
-                    while (count--)
-                        stackiter(ft_reverse_rotate, b, a, "rrb\n");
+                    else if ((*b)->data <= middle)
+                    {
+                        stackiter(ft_rotate, b, a, "rb\n");
+                        count++;
+                    }
+                    else if ((*b)->data > middle && (*b)->data == stackmax(*b))
+                    {
+                        stackiter(ft_push, a, b, "pa\n");
+                        len--;
+                        j++;
+                        if (count3 != -1 && count3 != 0)
+                        {
+                            count3 = count3 + count;
+                            count = 0;
+                            while (count3--)
+                                stackiter(ft_reverse_rotate, b, a, "rrb\n");
+                        }
+                    }
+                    else if ((*b)->data > middle && (*b)->data != stackmax(*b))
+                    {
+                        stackiter(ft_rotate, b, a, "rb\n");
+                        count3++;
+                    }
                 }
-                k--;
+                while (count--)
+                    stackiter(ft_reverse_rotate, b, a, "rrb\n");
             }
+            k--;
         }
-        // print_stacks("etat final: \n", *a, *b);
-    // }
+    }
+    // print_stacks("etat final: \n", *a, *b);
 }
 // 2 0 6 12 11 9 4 7 10 8 3 1 5
 
@@ -672,18 +663,21 @@ int main(int argc, char *argv[])
     char *line;
 	char **args;
     int len;
-    // char **t = malloc(10 * sizeof(char*));
+    // char **t = malloc(13 * sizeof(char*));
     // t[0] = ft_strdup("./push_swap");
-    // t[1] = ft_strdup("5");
-    // t[2] = ft_strdup("4");
-    // t[3] = ft_strdup("3");
-    // t[4] = ft_strdup("1");
-    // t[5] = ft_strdup("2");
-    // t[6] = ft_strdup("7");
-    // t[7] = ft_strdup("8");
-    // t[8] = ft_strdup("9");
-	// t[9] = NULL;
-	// argc = 10;
+    // t[1] = ft_strdup("0");
+    // t[2] = ft_strdup("6");
+    // t[3] = ft_strdup("1");
+    // t[4] = ft_strdup("4");
+    // t[5] = ft_strdup("3");
+    // t[6] = ft_strdup("9");
+    // t[7] = ft_strdup("10");
+    // t[8] = ft_strdup("8");
+    // t[9] = ft_strdup("7");
+    // t[10] = ft_strdup("2");
+    // t[11] = ft_strdup("5");
+	// t[12] = NULL;
+	// argc = 14;
     // argv = t;
     int i = 0;
     if (argc >= 2)
