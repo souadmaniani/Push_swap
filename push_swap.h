@@ -51,6 +51,11 @@ int                         stackindex(t_stackelem *a, int value);
 void                        ft_swap_q(int *a, int *b);
 int                         partition(int *arr, int l, int h);
 int                         *quiq_sort(int *arr, int l, int h);
+int                         get_middle(t_stackelem *a, int len);
+int                         get_len(t_stackelem *b, int first, int last);
+int                         is_reverse_sorted(t_stackelem *head, int len);
+int                         get_min_indexes(t_stackelem *a, int mid, int len);
+void                        print_stacks(char *str, t_stackelem *a, t_stackelem *b);
 #endif
 
 // char **t = malloc(4*sizeof(char*));
