@@ -13,7 +13,7 @@ $(CH_NAME):$(CH_SRC)
 	@gcc $(CH_SRC) srcs/libft/libft.a -g -o $(CH_NAME)
 
 $(PS_NAME):$(PS_SRC)
-	@gcc  $(PS_SRC) srcs/libft/libft.a -g -o $(PS_NAME) -fsanitize=address -g
+	@gcc  $(PS_SRC) srcs/libft/libft.a -g -o $(PS_NAME) 
 	
 clean:
 	@rm -rf checker.dSYM

@@ -31,152 +31,39 @@ void sort_three(t_stackelem **a, t_stackelem **b)
         else
             stackiter(ft_reverse_rotate, a, b,"rra\n");
     }
+    // print_stack_cmds(cmd);
 }
 
 void sort_five(t_stackelem **a, t_stackelem **b)
 { 
-    t_stackelem ptr;
+    int         mid;
     int         i;
-    int         min;
-    t_elem      elem;
+    int         len;
+    int         middle;
+    int         index;
+    int j;
 
-    // elem_order(*a, &elem);
-    elem_order(*a, &elem);
-    stackiter(ft_push, b, a, "pb\n");
-    stackiter(ft_push, b, a, "pb\n");
+    i = -1;
+    while (++i < 2)
+    {
+        j = -1;
+        len = stacksize(*a);
+        index = stackmin_index(*a);
+        mid = len / 2;
+        if (index < mid)
+            while (++j < index)
+                stackiter(ft_rotate, a, b, "ra\n");
+        else
+        {
+            while (index++ < len)
+                stackiter(ft_reverse_rotate, a, b, "rra\n");
+        }
+        stackiter(ft_push, b, a, "pb\n");
+    }
     if (!is_sorted(*a))
         sort_three(a, b);
-	if ((*a)->data == elem.rd)
-    {// 3 4 5
-        stackiter(ft_push, a, b, "pa\n");
-        stackiter(ft_push, a, b, "pa\n");
-        if (!is_sorted(*a))
-            stackiter(ft_swap, a, b, "sa\n");
-    }
-	else if ((*a)->data == elem.nd)
-    { // 2 3 4-> [1,5] | 2 3 5-> [1,4] | 2 4 5-> [1,3]
-        if ((*b)->data == elem.fth || (*b)->next->data == elem.fth)
-		{
-			stackiter(ft_push,a, b, "pa\n");
-			if ((*b)->data == elem.fth)
-			{
-				stackiter(ft_push, a, b, "pa\n");
-				stackiter(ft_rotate, a, b, "ra\n");
-			}
-			else
-			{
-				stackiter(ft_rotate, a, b, "ra\n");
-				stackiter(ft_push, a, b, "pa\n");
-			}
-		}
-		else if ((*b)->data == elem.rd || (*b)->next->data == elem.rd)
-		{
-			if ((*b)->next->data == elem.rd)
-				stackiter(ft_swap, b, a, "sb\n");
-			stackiter(ft_push, a, b, "pa\n");
-			stackiter(ft_swap, a, b, "sa\n");
-			stackiter(ft_push, a, b, "pa\n");
-		}
-		else
-		{
-			if ((*b)->data == elem.st)
-				stackiter(ft_swap, b, a, "sb\n");
-			stackiter(ft_reverse_rotate, a, b, "rra\n");
-			stackiter(ft_push, a, b, "pa\n");
-			stackiter(ft_rotate, a, b, "ra\n");
-			stackiter(ft_rotate, a, b, "ra\n");
-			stackiter(ft_push, a, b, "pa\n");
-		}
-    }
-    else if ((*a)->data == elem.st)
-    { // 1 2 3 | 1 2 4 | 1 2 5 | 1 3 4 | 1 3 5 | 1 4 5;
-        if (stackchr(*b, elem.fth) && stackchr(*b, elem.rth))
-        {
-            if (is_sorted(*b))
-                stackiter(ft_swap, b, a, "sb\n");
-            stackiter(ft_push, a, b, "pa\n");
-            stackiter(ft_push, a, b, "pa\n");
-            stackiter(ft_rotate, a, b, "ra\n");
-			stackiter(ft_rotate, a, b, "ra\n");
-        }
-        else if (stackchr(*b, elem.fth) && stackchr(*b, elem.rd))
-        {
-            if (!is_sorted(*b))
-                stackiter(ft_swap, b, a, "sb\n");
-            stackiter(ft_push, a, b, "rra\n");
-            stackiter(ft_push, a, b, "pa\n");
-            stackiter(ft_rotate, a, b, "ra\n");
-            stackiter(ft_rotate, a, b, "ra\n");
-            stackiter(ft_push, a, b, "pa\n");
-            stackiter(ft_rotate, a, b, "ra\n");
-        }
-        else if (stackchr(*b, elem.rth) && stackchr(*b, elem.rd))
-        {
-            if ((*b)->data == elem.rth)
-            {
-                stackiter(ft_push, a, b, "rra\n");
-                stackiter(ft_push, a, b, "pa\n");
-                stackiter(ft_push, a, b, "pa\n");
-                stackiter(ft_rotate, a, b, "ra\n");
-                stackiter(ft_rotate, a, b, "ra\n");
-                stackiter(ft_rotate, a, b, "ra\n");
-            }
-            else
-            {
-                stackiter(ft_push, a, b, "rra\n");
-                stackiter(ft_push, a, b, "pa\n");
-                stackiter(ft_rotate, a, b, "ra\n");
-                stackiter(ft_push, a, b, "pa\n");
-                stackiter(ft_rotate, a, b, "ra\n");
-                stackiter(ft_rotate, a, b, "ra\n");
-            }
-        }
-        else if (stackchr(*b, elem.fth) && stackchr(*b, elem.nd))
-        {
-            if ((*b)->data == elem.nd)
-            {
-                stackiter(ft_push, a, b, "pa\n");
-                stackiter(ft_swap, a, b, "sa\n");
-                stackiter(ft_push, a, b, "pa\n");
-                stackiter(ft_rotate, a, b, "ra\n");
-            }
-            else
-            {
-                stackiter(ft_push, a, b, "pa\n");
-                stackiter(ft_rotate, a, b, "ra\n");
-                stackiter(ft_push, a, b, "pa\n");
-                stackiter(ft_swap, a, b, "sa\n");
-            }
-        }
-        else if (stackchr(*b, elem.rth) && stackchr(*b, elem.nd))
-        {   if ((*b)->data == elem.rth)
-            {
-                stackiter(ft_push, a, b, "rra\n");
-                stackiter(ft_push, a, b, "pa\n");
-                stackiter(ft_rotate, a, b, "ra\n");
-                stackiter(ft_rotate, a, b, "ra\n");
-                stackiter(ft_push, a, b, "pa\n");
-                stackiter(ft_swap, a, b, "sa\n");
-            }
-            else
-            {   stackiter(ft_push, a, b, "pa\n");
-                stackiter(ft_swap, a, b, "sa\n");
-                stackiter(ft_push, a, b, "rra\n");
-                stackiter(ft_push, a, b, "pa\n");
-                stackiter(ft_rotate, a, b, "ra\n");
-                stackiter(ft_rotate, a, b, "ra\n");
-            }
-        }
-        else if (stackchr(*b, elem.rd) && stackchr(*b, elem.nd))
-        {
-            if (is_sorted(*b))
-                stackiter(ft_swap, b, a, "sb\n");
-            stackiter(ft_push, a, b, "pa\n");
-            stackiter(ft_swap, a, b, "sa\n");
-            stackiter(ft_push, a, b, "pa\n");
-            stackiter(ft_swap, a, b, "sa\n");
-        }
-    }
+    stackiter(ft_push, a, b, "pa\n");
+    stackiter(ft_push, a, b, "pa\n");
     print_stack_cmds(cmd);
 }
 
@@ -331,12 +218,11 @@ void push_max(t_stackelem   **a, t_stackelem    **b)
     }
 }
 
-void sort_five_h(t_stackelem   **a, t_stackelem    **b, int    half, t_stackelem **new)
+void sort_five_h(t_stackelem   **a, t_stackelem    **b, int    half)
 {
     int			    index, i, len, middle, mid, j, is_rotate, k;
     int             arr[100][3];
     t_stackelem *tmp;
-    new = NULL;
 
     // push all min then middle
     // while (!is_sorted(*a))
@@ -452,7 +338,6 @@ void sort_five_h(t_stackelem   **a, t_stackelem    **b, int    half, t_stackelem
 }
 void push_swap(t_stackelem **a, t_stackelem **b, int len)
 {
-    t_stackelem **new;
     if (!is_sorted(*a))
     {
         if (len == 2)
@@ -464,7 +349,7 @@ void push_swap(t_stackelem **a, t_stackelem **b, int len)
         else if (len == 100)
             sort_hundrd(a, b, stacksize(*a) / 2);
         else
-             sort_five_h(a, b, stacksize(*a) / 2, new);
+             sort_five_h(a, b, stacksize(*a) / 2);
     }
 }
 
