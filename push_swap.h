@@ -8,6 +8,7 @@
 typedef struct 				s_stackelem
 {
     int						data;
+    char                    *cmd;
     struct s_stackelem		*next;
 }						    t_stackelem;
 
@@ -20,6 +21,8 @@ typedef struct              s_elem
     int                     fth;
 }                            t_elem;
 
+t_stackelem                 *cmd;
+void                        print_stack_cmds(t_stackelem *head);
 t_stackelem					*stacknew(int data);
 int							stacksize(t_stackelem *head);
 void						stackadd_front(t_stackelem **head, t_stackelem *new);

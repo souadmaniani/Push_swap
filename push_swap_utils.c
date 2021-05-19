@@ -66,3 +66,36 @@ void print_stack(t_stackelem *head)
     }
     write(1, "\n", 1);
 }
+void print_stack_cmds(t_stackelem *head)
+{
+    t_stackelem *tmp;
+
+    tmp = head;
+    while (tmp)
+    {
+            if ((tmp->next )&& ((!strcmp(tmp->cmd , "ra\n") && !strcmp(tmp->next->cmd , "rb\n"))
+                || (!strcmp(tmp->cmd , "rb\n") && !strcmp(tmp->next->cmd , "ra\n") )))
+            {
+                write(1, "rr\n", 3);
+                 tmp = tmp->next;
+            }
+            else if ((tmp->next)  && ((!strcmp(tmp->cmd , "rra\n") && !strcmp(tmp->next->cmd , "rrb\n"))
+                || (!strcmp(tmp->cmd , "rrb\n") && !strcmp(tmp->next->cmd , "rra\n"))))
+            {
+                write(1, "rrr\n", 4);
+                 tmp = tmp->next;
+            }
+            else if ((tmp->next)  && ((!strcmp(tmp->cmd , "sa\n") && !strcmp(tmp->next->cmd , "sb\n"))
+            || (!strcmp(tmp->cmd , "sb\n") && !strcmp(tmp->next->cmd , "sa\n"))))
+            {
+                write(1, "ss\n", 3);
+                 tmp = tmp->next;
+            }
+            else
+                write(1, tmp->cmd, ft_strlen(tmp->cmd));
+            tmp = tmp->next;
+    }
+}
+
+// 10807 ---> diff 63
+// 10744

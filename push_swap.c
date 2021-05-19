@@ -177,6 +177,7 @@ void sort_five(t_stackelem **a, t_stackelem **b)
             stackiter(ft_swap, a, b, "sa\n");
         }
     }
+    print_stack_cmds(cmd);
 }
 
 int sort_part(t_stackelem **a, t_stackelem **b, int len)
@@ -330,17 +331,17 @@ void push_max(t_stackelem   **a, t_stackelem    **b)
     }
 }
 
-void sort_five_h(t_stackelem   **a, t_stackelem    **b, int    half)
+void sort_five_h(t_stackelem   **a, t_stackelem    **b, int    half, t_stackelem **new)
 {
     int			    index, i, len, middle, mid, j, is_rotate, k;
-    int             arr[20][3];
+    int             arr[100][3];
     t_stackelem *tmp;
+    new = NULL;
 
     // push all min then middle
     // while (!is_sorted(*a))
     k = 0;
     // print_stacks("INITIAL STATE\n", *a, *b);
-    // half = half / 2;
     while (stacksize(*a) > 2)
     {
         i = -1;
@@ -351,7 +352,6 @@ void sort_five_h(t_stackelem   **a, t_stackelem    **b, int    half)
             len = stacksize(*a);
             mid = len / 2;
             index = get_min_indexes(*a, middle, len);
-            // printf("index: %d middle: %d\n", index, middle);
             j = -1;
             if (index < mid)
                 while (++j < index)
@@ -373,18 +373,19 @@ void sort_five_h(t_stackelem   **a, t_stackelem    **b, int    half)
         k++;
         if (is_sorted(*a))
             break ;
-        // printf("half: %d len: %d k = %d \n", half, stacksize(*a), k);
     }
     k--;
     if (!is_sorted(*a) && stacksize(*a) == 2)
         stackiter(ft_swap, a, b, "sa\n");
-    i = k;
-    while (i > -1)
-    {
-        // printf("LEN=========> %d \n", arr[i][2]);
-        i--;
-    }
+    // i = k;
+    // while (i > -1)
+    // {
+    //     printf("LEN=========> %d \n", arr[i][2]);
+    //     i--;
+    // }
     // print_stacks("STATE 1 \n", *a, *b);
+    print_stack_cmds(cmd);
+    return ;
     while (*b)
     {
         len = stacksize(*b);
@@ -397,6 +398,7 @@ void sort_five_h(t_stackelem   **a, t_stackelem    **b, int    half)
             len = arr[k][2];
             while (len)
             {
+                // print_stacks("stacks\n", *a, *b);
                 middle = get_middle(*b, len);
                 if (len == 1)
                 {
@@ -425,7 +427,6 @@ void sort_five_h(t_stackelem   **a, t_stackelem    **b, int    half)
                 {
                     index = stackmax_index(*b);
                     half = stacksize(*b) / 2;
-                    // print_stacks("stacks\n", *a, *b);
                     if (index > half)
                     {
                         while (index++ < stacksize(*b))
@@ -446,11 +447,12 @@ void sort_five_h(t_stackelem   **a, t_stackelem    **b, int    half)
             k--;
         }
     }
-    // print_stacks("stacks \n", *a, *b);
+    print_stack_cmds(cmd);
+    // print_stacks("FINAL STATE \n", *a, *b);
 }
-// 6 11 1 3 0 7 5 4 9 2 10 12 8 13
 void push_swap(t_stackelem **a, t_stackelem **b, int len)
 {
+    t_stackelem **new;
     if (!is_sorted(*a))
     {
         if (len == 2)
@@ -462,7 +464,7 @@ void push_swap(t_stackelem **a, t_stackelem **b, int len)
         else if (len == 100)
             sort_hundrd(a, b, stacksize(*a) / 2);
         else
-             sort_five_h(a, b, stacksize(*a) / 2);
+             sort_five_h(a, b, stacksize(*a) / 2, new);
     }
 }
 
