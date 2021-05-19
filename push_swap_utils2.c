@@ -96,7 +96,7 @@ int get_min_indexes(t_stackelem *a, int mid, int len)
         i++;
     }
     free(arr);
-    if (index1 < index2)
+    if (index1 <= index2)
         return (index1);
     return (len - i - 1);
 }
