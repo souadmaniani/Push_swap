@@ -1,2 +1,3 @@
 nchouf 250 f stack a o 250 f stack b o wax kayn chi instructions commun bax nwslo max lfou9
 f sort_tree a ndwz param bax ila a nst3mlha f sort 5 man3wdch print_cmds
+ chunk_len = stacksize(*a) / 11;
