@@ -59,6 +59,7 @@ int                         get_len(t_stackelem *b, int first, int last);
 int                         is_reverse_sorted(t_stackelem *head, int len);
 int                         get_min_indexes(t_stackelem *a, int mid, int len);
 void                        print_stacks(char *str, t_stackelem *a, t_stackelem *b);
+int                         get_max_of_chunk(t_stackelem *a, int len);
 #endif
 
 // char **t = malloc(4*sizeof(char*));

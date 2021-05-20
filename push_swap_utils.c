@@ -77,19 +77,23 @@ void print_stack_cmds(t_stackelem *head)
                 || (!strcmp(tmp->cmd , "rb\n") && !strcmp(tmp->next->cmd , "ra\n") )))
             {
                 write(1, "rr\n", 3);
-                 tmp = tmp->next;
+                tmp = tmp->next;
             }
             else if ((tmp->next)  && ((!strcmp(tmp->cmd , "rra\n") && !strcmp(tmp->next->cmd , "rrb\n"))
                 || (!strcmp(tmp->cmd , "rrb\n") && !strcmp(tmp->next->cmd , "rra\n"))))
             {
                 write(1, "rrr\n", 4);
-                 tmp = tmp->next;
+                tmp = tmp->next;
             }
             else if ((tmp->next)  && ((!strcmp(tmp->cmd , "sa\n") && !strcmp(tmp->next->cmd , "sb\n"))
             || (!strcmp(tmp->cmd , "sb\n") && !strcmp(tmp->next->cmd , "sa\n"))))
             {
                 write(1, "ss\n", 3);
-                 tmp = tmp->next;
+                tmp = tmp->next;
+            }
+            else if ((tmp->next)  && !strcmp(tmp->cmd , "ra\n") && !strcmp(tmp->next->cmd , "rra\n"))
+            {
+                tmp = tmp->next;
             }
             else
                 write(1, tmp->cmd, ft_strlen(tmp->cmd));
@@ -99,3 +103,4 @@ void print_stack_cmds(t_stackelem *head)
 
 // 10807 ---> diff 63
 // 10744
+//11724 pazzzaf dyal rra

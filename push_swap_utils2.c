@@ -72,6 +72,27 @@ int get_middle(t_stackelem *a, int len)
     mid = sorted_arr[len/2];
     return (mid);
 }
+int get_max_of_chunk(t_stackelem *a, int len)
+{
+    int max_of_chunk;
+    int *arr;
+    int i;
+    int *sorted_arr;
+
+    if (len == 1)
+        return (a->data);
+    if (len == 2)
+    {
+        if (a->data > a->next->data)
+            return (a->data);
+        return (a->next->data);
+    }
+    i = 0;
+    arr = copystack_arr(a, len);
+    sorted_arr = quiq_sort(arr, 0, len - 1);
+    max_of_chunk = sorted_arr[45];
+    return (max_of_chunk);
+}
 
 int get_min_indexes(t_stackelem *a, int mid, int len)
 {
@@ -167,14 +188,4 @@ int is_reverse_sorted(t_stackelem *head, int len)
         len--;
     }
     return (1);
-}
-
-void print_nbr(char *str, int n)
-{
-    char *nbr;
-
-    write(1, str, ft_strlen(str));
-    nbr = ft_itoa(n);
-    write(1, nbr, ft_strlen(nbr));
-    write(1, "\n", 1);
 }
