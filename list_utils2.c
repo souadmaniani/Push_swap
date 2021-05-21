@@ -1,33 +1,5 @@
 #include "push_swap.h"
 
-t_stackelem *stackchr(t_stackelem *a, int data)
-{
-    while (a)
-    {
-        if (a->data == data)
-            return a;
-        a = a->next;
-    }
-    return 0;
-}
-
-t_stackelem *stackcopy(t_stackelem **dest, t_stackelem *src)
-{
-    int         i;
-    t_stackelem *new;
-
-    i = -1;
-    while (src)
-    {
-        new = stacknew(src->data);
-        if (!new)
-            return (0);
-        stackadd_back(dest, new);
-        src = src->next;
-    }
-    return (*dest);
-}
-
 int stackmin_index(t_stackelem *a)
 {
     int min;
@@ -82,18 +54,6 @@ void  stackdelete_elem(t_stackelem **head, t_stackelem *elem)
             break ;
         }
     }
-}
-
-t_stackelem *stackelem_byindex(t_stackelem **a, int index)
-{
-    t_stackelem *tmp;
-    int i;
-
-    tmp = *a;
-    i = -1;
-    while (++i < index)
-        tmp = tmp->next;
-    return (tmp);
 }
 
 int stackindex(t_stackelem *a, int value)

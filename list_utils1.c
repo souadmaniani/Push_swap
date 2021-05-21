@@ -49,22 +49,9 @@ int stackmin(t_stackelem *a)
     return (minim);
 }
 
-t_stackelem	*stacknew_cmd(char *cmd)
-{
-	t_stackelem *new;
-
-    new = malloc(sizeof(t_stackelem));
-    if (!new)
-        return (NULL);
-    new->data = 0;
-    new->cmd = cmd;
-    new->next = NULL;
-    return (new);
-}
-
 void	stackiter(void (*f)(t_stackelem **, t_stackelem **),
     t_stackelem **a, t_stackelem **b, char *str)
 {
     f(a, b);
-    stackadd_back(&cmd, stacknew_cmd(str));
+    write(1, str, ft_strlen(str));
 }

@@ -1,26 +1,5 @@
 #include "push_swap.h"
 
-void elem_order(t_stackelem *a, t_elem *elem)
-{
-	t_stackelem *ptr;
-	t_stackelem *copy = NULL;
-
-	
-	copy = stackcopy(&copy, a);
-    elem->st = stackmin(a);
-    elem->fth = stackmax(a);
-    ptr = stackchr(copy, elem->st);
-    ptr->data = INT_MAX;
-    ptr = stackchr(copy, elem->fth);
-    ptr->data = INT_MAX;
-    elem->nd = stackmin(copy);
-    ptr = stackchr(copy, elem->nd);
-    ptr->data = INT_MAX;
-    elem->rd = stackmin(copy);
-    ptr = stackchr(copy, elem->rd);
-    ptr->data = INT_MAX;
-    elem->rth = stackmin(copy);
-}
 
 void print_stacks(char *str, t_stackelem *a, t_stackelem *b)
 {
@@ -45,8 +24,6 @@ int *copystack_arr(t_stackelem *a, int len)
         arr[i++] = a->data;
         a = a->next;
         len--;
-        // printf(" i= %d %d\n",i-1, arr[i - 1]);
-        // fflush(stdout);
     }
     return (arr);
 }

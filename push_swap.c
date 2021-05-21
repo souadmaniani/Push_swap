@@ -26,8 +26,6 @@ void sort_three(t_stackelem **a, t_stackelem **b, int in_use)
         else
             stackiter(ft_reverse_rotate, a, b,"rra\n");
     }
-    if (!in_use)
-        print_stack_cmds(cmd);
 }
 
 void sort_five(t_stackelem **a, t_stackelem **b)
@@ -60,7 +58,6 @@ void sort_five(t_stackelem **a, t_stackelem **b)
         sort_three(a, b, 1);
     stackiter(ft_push, a, b, "pa\n");
     stackiter(ft_push, a, b, "pa\n");
-    print_stack_cmds(cmd);
 }
 
 int sort_part(t_stackelem **a, t_stackelem **b, int len)
@@ -186,7 +183,6 @@ void sort_hundrd(t_stackelem   **a, t_stackelem    **b, int    half)
     sort_part(a, b, len);
     while ((*a)->data >= middle)
         stackiter(ft_rotate, a, b, "ra\n");
-    print_stack_cmds(cmd);
 }
 
 void push_max(t_stackelem   **a, t_stackelem    **b)
@@ -214,8 +210,6 @@ void sort_five_h(t_stackelem   **a, t_stackelem    **b, int    half)
 {
     int			    index, i, len, mid, j, k, max_chunk;
     int             arr[100][3], chunk_len;
-    // t_stackelem     *tmp;
-    // t_stackelem     *cmd;
 
     k = 0;
     chunk_len = stacksize(*a) / 11;
@@ -289,7 +283,6 @@ void sort_five_h(t_stackelem   **a, t_stackelem    **b, int    half)
             k--;
         }
     }
-    print_stack_cmds(cmd);
 }
 void push_swap(t_stackelem **a, t_stackelem **b, int len)
 {
