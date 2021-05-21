@@ -1,20 +1,6 @@
 #include "push_swap.h"
-// LESS THAN 1100: FOR 100 NUMBER
-// LESS THAN 8500: FOR 500 NUMBER
-// 	stackiter(ft_rotate, a, b, "ra\n");
-// ft_rotate(a, b);
-// print_stacks("etat initial: \n", *a, *b);
-// SHOUF A LHBIBA DIFF BETWEEN ALGO1 AND ALGO2 12001 - 10541 = 1460
-void print_nbr(char *str, int n)
-{
-    char *nbr;
 
-    write(1, str, ft_strlen(str));
-    nbr = ft_itoa(n);
-    write(1, nbr, ft_strlen(nbr));
-    write(1, "\n", 1);
-}
-void sort_three(t_stackelem **a, t_stackelem **b)
+void sort_three(t_stackelem **a, t_stackelem **b, int in_use)
 {
     t_elem elem;
 
@@ -40,7 +26,8 @@ void sort_three(t_stackelem **a, t_stackelem **b)
         else
             stackiter(ft_reverse_rotate, a, b,"rra\n");
     }
-    // print_stack_cmds(cmd);
+    if (!in_use)
+        print_stack_cmds(cmd);
 }
 
 void sort_five(t_stackelem **a, t_stackelem **b)
@@ -48,9 +35,8 @@ void sort_five(t_stackelem **a, t_stackelem **b)
     int         mid;
     int         i;
     int         len;
-    int         middle;
     int         index;
-    int j;
+    int         j;
 
     i = -1;
     while (++i < 2)
@@ -69,11 +55,12 @@ void sort_five(t_stackelem **a, t_stackelem **b)
         }
         stackiter(ft_push, b, a, "pb\n");
     }
+    
     if (!is_sorted(*a))
-        sort_three(a, b);
+        sort_three(a, b, 1);
     stackiter(ft_push, a, b, "pa\n");
     stackiter(ft_push, a, b, "pa\n");
-    // print_stack_cmds(cmd);
+    print_stack_cmds(cmd);
 }
 
 int sort_part(t_stackelem **a, t_stackelem **b, int len)
@@ -225,20 +212,19 @@ void push_max(t_stackelem   **a, t_stackelem    **b)
 
 void sort_five_h(t_stackelem   **a, t_stackelem    **b, int    half)
 {
-    int			    index, i, len, middle, mid, j, is_rotate, k, max_chunk;
-    int             arr[100][3];
-    t_stackelem     *tmp;
+    int			    index, i, len, mid, j, k, max_chunk;
+    int             arr[100][3], chunk_len;
+    // t_stackelem     *tmp;
+    // t_stackelem     *cmd;
 
-    // push all min then middle
-    // while (!is_sorted(*a))
     k = 0;
-    // print_stacks("INITIAL STATE\n", *a, *b);
+    chunk_len = stacksize(*a) / 11;
     while (stacksize(*a))
     {
         i = -1;
         len = stacksize(*a);
-        max_chunk = get_max_of_chunk(*a, len);
-        while (++i < 45)
+        max_chunk = get_max_of_chunk(*a, len, chunk_len);
+        while (++i < chunk_len)
         {
             len = stacksize(*a);
             mid = len / 2;
@@ -255,12 +241,8 @@ void sort_five_h(t_stackelem   **a, t_stackelem    **b, int    half)
             stackiter(ft_push, b, a, "pb\n");
             if (i == 0)
                 arr[k][1] = (*b)->data;
-            if (stacksize(*a) == 1)
-                break ;
         }
-        if (is_sorted(*a))
-            break ;
-        if (stacksize(*a) == 5)
+        if (!is_sorted(*a) && stacksize(*a) < chunk_len)
         {
             while (*a)
                  stackiter(ft_push, b, a, "pb\n");
@@ -268,13 +250,11 @@ void sort_five_h(t_stackelem   **a, t_stackelem    **b, int    half)
         arr[k][0] = (*b)->data;
         arr[k][2] = get_len(*b, arr[k][0], arr[k][1]);
         k++;
-        // print_nbr("k: ", k);
-        // print_nbr("max_chunk ", max_chunk);
+        if ( *a && (is_sorted(*a) || stacksize(*a) == 1))
+            break ;
     }
     k--;
-    // print_stacks("FINAL STATE \n", *a, *b);
-    // return ;
-    while (*b)
+    while (k >= 0)
     {
         len = stacksize(*b);
         if (is_reverse_sorted(*b, len))
@@ -284,72 +264,50 @@ void sort_five_h(t_stackelem   **a, t_stackelem    **b, int    half)
         {
             i = -1;
             len = arr[k][2];
-            // max_chunk = get_max_of_chunk(*b, len);
             while (len)
             {
-                // print_stacks("FINAL STATE \n", *a, *b);
-                // printf('max-chunk')
-                // if (len == 1)
-                // {
-                //     push_max(a, b);
-                //     break ;
-                // }
-                // else if (len == 2)
-                // {
-                //     push_max(a, b);
-                //     push_max(a, b);
-                //     break ;
-                // }
                 mid = len / 2;
                 if (len % 2 == 0)
-                    mid--;
-                // while mazal chi haja kbar man middle o mazal hna f chunk
-                // j = 0;
-                // while (j < 45)
-                // {
-                    index = stackmax_index(*b);
-                    half = stacksize(*b) / 2;
-                    max_chunk = stackmax(*b);
-                    // print_nbr("max_chunk", max_chunk);
-                    // print_nbr("index", index);
-                    // print_nbr("half", half);
-                    if (index > half)
-                    {
-                        while (index++ < stacksize(*b))
-                            stackiter(ft_reverse_rotate, b, a, "rrb\n");   
-                    }
-                    else if ((*b)->data < max_chunk)
-                        stackiter(ft_rotate, b, a, "rb\n");
-                    // else if ((*b)->data >= max_chunk && (*b)->data != max_chunk)
-                    //     stackiter(ft_rotate, b, a, "rb\n");
-                    else if ((*b)->data == max_chunk)
-                    {
-                        stackiter(ft_push, a, b, "pa\n");
-                        len--;
-                        j++;
-                    }
-                // }
+                mid--;
+                index = stackmax_index(*b);
+                half = stacksize(*b) / 2;
+                max_chunk = stackmax(*b);
+                if (index > half)
+                {
+                    while (index++ < stacksize(*b))
+                        stackiter(ft_reverse_rotate, b, a, "rrb\n");   
+                }
+                else if ((*b)->data < max_chunk)
+                    stackiter(ft_rotate, b, a, "rb\n");
+                else if ((*b)->data == max_chunk)
+                {
+                    stackiter(ft_push, a, b, "pa\n");
+                    len--;
+                    j++;
+                }
             }
             k--;
         }
     }
     print_stack_cmds(cmd);
-    // print_stacks("FINAL STATE \n", *a, *b);
 }
 void push_swap(t_stackelem **a, t_stackelem **b, int len)
 {
     if (!is_sorted(*a))
     {
         if (len == 2)
-            stackiter(ft_swap, a, b, "sa\n");
-        else if (len == 3) // 2 instructions
-            sort_three(a, b);
-        else if (len == 5) // 12 instructions
+        {
+            ft_swap(a, b);
+            write(1, "sa\n", 3);
+        }
+        else if (len == 3)
+            sort_three(a, b, 0);
+        else if (len == 5)
             sort_five(a, b);
-        else if (len == 100)
-            sort_hundrd(a, b, stacksize(*a) / 2);
+        else if (len <= 100)
+            sort_hundrd(a, b,  stacksize(*a) / 2);
         else
-             sort_five_h(a, b, stacksize(*a) / 2);
+            sort_five_h(a, b, stacksize(*a) / 2);
     }
 }
 
@@ -370,14 +328,13 @@ void free_tab(char ***tab)
 
 int main(int argc, char *argv[])
 {
-     int ret;
-    int res;
+    int ret;
     t_stackelem *a;
     t_stackelem *b;
-    char *line;
+    
 	char **args;
     int len;
-    int i = 0;
+
     if (argc >= 2)
     {
         b = NULL;

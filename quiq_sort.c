@@ -40,13 +40,3 @@ int *quiq_sort(int *arr, int l, int h)
     }
     return (arr);
 }
-
-// int main(int argc, char*argv[])
-// {
-//     int i = -1;
-//     int table[7] = {9, 8, 10, 3, 5, 2, 1};
-//     int *sorted_table = quiq_sort(table, 0, 6);
-//     while (++i < 7)
-//         printf ("%d ", sorted_table[i]);
-//     printf("\n");
-// }

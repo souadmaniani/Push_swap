@@ -1,5 +1,5 @@
-#include "../push_swap.h"
-// sa sb ss pa pb ra rb rr rra rrb rrr
+#include "push_swap.h"
+
 void ft_swap(t_stackelem **head, t_stackelem **b)
 {
     int tmp;

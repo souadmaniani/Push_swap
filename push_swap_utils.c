@@ -4,7 +4,6 @@
 int is_duplicate(char *str, char **argv, int index)
 {
     int i;
-    int j;
 
     i = 0;
     while (argv[++i])
@@ -100,7 +99,3 @@ void print_stack_cmds(t_stackelem *head)
             tmp = tmp->next;
     }
 }
-
-// 10807 ---> diff 63
-// 10744
-//11724 pazzzaf dyal rra

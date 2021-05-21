@@ -72,7 +72,7 @@ int get_middle(t_stackelem *a, int len)
     mid = sorted_arr[len/2];
     return (mid);
 }
-int get_max_of_chunk(t_stackelem *a, int len)
+int get_max_of_chunk(t_stackelem *a, int len, int chunk_len)
 {
     int max_of_chunk;
     int *arr;
@@ -90,7 +90,7 @@ int get_max_of_chunk(t_stackelem *a, int len)
     i = 0;
     arr = copystack_arr(a, len);
     sorted_arr = quiq_sort(arr, 0, len - 1);
-    max_of_chunk = sorted_arr[45];
+    max_of_chunk = sorted_arr[chunk_len];
     return (max_of_chunk);
 }
 
@@ -100,7 +100,6 @@ int get_min_indexes(t_stackelem *a, int mid, int len)
     int index2;
     int *arr;
     int i;
-    int j;
 
     arr = copystack_arr(a, len);
     index1 = 0;
@@ -125,6 +124,8 @@ int get_min_indexes(t_stackelem *a, int mid, int len)
 int get_index(t_stackelem *a, int middle)
 {
     int index;
+
+    index = 0;
     while (a->data > middle)
     {
        a = a->next;
@@ -139,7 +140,6 @@ int get_max_indexes(t_stackelem *a, int mid, int len)
     int index2;
     int *arr;
     int i;
-    int j;
 
     arr = copystack_arr(a, len);
     index1 = 0;

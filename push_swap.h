@@ -1,7 +1,7 @@
 #ifndef PUSH_SWAP_H
 # define PUSH_SWAP_H
-# include "srcs/libft/libft.h"
-#include "srcs/get_next_line/get_next_line.h"
+# include "libft/libft.h"
+#include "get_next_line/get_next_line.h"
 #include <stdio.h>
 # define INT_MAX	2147483647
 
@@ -11,6 +11,13 @@ typedef struct 				s_stackelem
     char                    *cmd;
     struct s_stackelem		*next;
 }						    t_stackelem;
+
+// typedef struct 	s_stacks
+// {
+//     t_stackelem *a;
+//     t_stackelem *b;
+//     t_stackelem *cmds_array;
+// }               t_stacks;
 
 typedef struct              s_elem
 {
@@ -59,11 +66,5 @@ int                         get_len(t_stackelem *b, int first, int last);
 int                         is_reverse_sorted(t_stackelem *head, int len);
 int                         get_min_indexes(t_stackelem *a, int mid, int len);
 void                        print_stacks(char *str, t_stackelem *a, t_stackelem *b);
-int                         get_max_of_chunk(t_stackelem *a, int len);
+int                         get_max_of_chunk(t_stackelem *a, int len, int  chunk_len);
 #endif
-
-// char **t = malloc(4*sizeof(char*));
-// t[0] = ft_strdup("./push_swap");
-// t[1] = ft_strdup("5");
-// t[2] = ft_strdup("1");
-// t[3] = ft_strdup("2");

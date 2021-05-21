@@ -1,4 +1,4 @@
-#include "../push_swap.h"
+#include "push_swap.h"
 
 int	stacksize(t_stackelem *head)
 {
@@ -48,14 +48,16 @@ int stackmin(t_stackelem *a)
     }
     return (minim);
 }
-t_stackelem	*stacknewcmd(char *data)
+
+t_stackelem	*stacknew_cmd(char *cmd)
 {
 	t_stackelem *new;
 
     new = malloc(sizeof(t_stackelem));
     if (!new)
         return (NULL);
-    new->cmd = strdup(data);
+    new->data = 0;
+    new->cmd = cmd;
     new->next = NULL;
     return (new);
 }
@@ -63,10 +65,6 @@ t_stackelem	*stacknewcmd(char *data)
 void	stackiter(void (*f)(t_stackelem **, t_stackelem **),
     t_stackelem **a, t_stackelem **b, char *str)
 {
-
     f(a, b);
-    // t_stackelem **new;
-    // new = stacknew(str);
-    // write(1, str, ft_strlen(str));
-    stackadd_back(&cmd, stacknewcmd(str));
+    stackadd_back(&cmd, stacknew_cmd(str));
 }
