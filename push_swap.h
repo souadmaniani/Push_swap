@@ -8,27 +8,9 @@
 typedef struct 				s_stackelem
 {
     int						data;
-    char                    *cmd;
     struct s_stackelem		*next;
 }						    t_stackelem;
 
-// typedef struct 	s_stacks
-// {
-//     t_stackelem *a;
-//     t_stackelem *b;
-//     t_stackelem *cmds_array;
-// }               t_stacks;
-
-typedef struct              s_elem
-{
-    int                     st;
-    int                     nd;
-    int                     rd;
-    int                     rth;
-    int                     fth;
-}                            t_elem;
-
-t_stackelem                 *cmd;
 void                        print_stack_cmds(t_stackelem *head);
 t_stackelem					*stacknew(int data);
 int							stacksize(t_stackelem *head);
@@ -52,7 +34,6 @@ int                         is_duplicate(char *str, char **argv, int index);
 int							create_stack(t_stackelem **head, char **argv);
 int							apply_instruction(char *line, t_stackelem **a, t_stackelem **b);
 int							is_sorted(t_stackelem *head);
-void						elem_order(t_stackelem *a, t_elem *elem);
 int                         stackmin_index(t_stackelem *a);
 int                         stackmax_index(t_stackelem *a);
 void                        stackdelete_elem(t_stackelem **a, t_stackelem *elem);
@@ -67,4 +48,5 @@ int                         is_reverse_sorted(t_stackelem *head, int len);
 int                         get_min_indexes(t_stackelem *a, int mid, int len);
 void                        print_stacks(char *str, t_stackelem *a, t_stackelem *b);
 int                         get_max_of_chunk(t_stackelem *a, int len, int  chunk_len);
+
 #endif

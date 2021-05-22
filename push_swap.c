@@ -2,26 +2,24 @@
 
 void sort_three(t_stackelem **a, t_stackelem **b, int in_use)
 {
-    t_elem elem;
+    int last;
 
-    elem.st = (*a)->data;
-    elem.nd = (*a)->next->data;
-    elem.rd = (*a)->next->next->data;
+    last = stacklast(*a)->data;
 
-    if (elem.st == stackmax(*a))
+    if ((*a)->data == stackmax(*a))
     {
         stackiter(ft_rotate, a, b, "ra\n");
         if (!is_sorted(*a))
             stackiter(ft_swap, a, b,"sa\n");
     }
-    else if (elem.st == stackmin(*a))
+    else if ((*a)->data == stackmin(*a))
     {
         stackiter(ft_reverse_rotate, a, b,"rra\n");
         stackiter(ft_swap, a, b, "sa\n");
     }
     else
     {
-        if (elem.st < elem.rd)
+        if ((*a)->data < last)
             stackiter(ft_swap, a, b,"sa\n");
         else
             stackiter(ft_reverse_rotate, a, b,"rra\n");
@@ -290,8 +288,7 @@ void push_swap(t_stackelem **a, t_stackelem **b, int len)
     {
         if (len == 2)
         {
-            ft_swap(a, b);
-            write(1, "sa\n", 3);
+            stackiter(ft_swap, a, b, "sa\n");
         }
         else if (len == 3)
             sort_three(a, b, 0);
@@ -304,19 +301,32 @@ void push_swap(t_stackelem **a, t_stackelem **b, int len)
     }
 }
 
-void free_tab(char ***tab)
+void free_tab(char **tab)
 {
     int i;
 
     i = 0;
-    while (*tab[i])
+    
+    while (tab[i])
     {
-        free(*tab[i]);
-        *tab[i] = NULL;
+        free(tab[i]);
+        tab[i] = NULL;
         i++;
     }
-    free(*tab);
-    **tab = NULL;
+    free(tab);
+    tab = NULL;
+}
+void free_stack(t_stackelem *head)
+{
+    t_stackelem *tmp;
+    
+    tmp = head;
+    while (head)
+    {
+       tmp = head;
+       head = head->next;
+       free(tmp);
+    }
 }
 
 int main(int argc, char *argv[])
@@ -336,13 +346,14 @@ int main(int argc, char *argv[])
             args = ft_split(argv[1], ' ', &len);
             ret = create_stack(&a, args);
             argc = len + 1;
-            // FREE ARGS
+            free_tab(args);
         }
         else
             ret = create_stack(&a, argv + 1);
         if(ret == -1)
             return(-1);
         push_swap(&a, &b, argc - 1);
-    }
+        free_stack(a);
+    } 
     return 0;
 }

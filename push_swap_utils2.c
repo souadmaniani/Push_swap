@@ -47,6 +47,7 @@ int get_middle(t_stackelem *a, int len)
     arr = copystack_arr(a, len);
     sorted_arr = quiq_sort(arr, 0, len - 1);
     mid = sorted_arr[len/2];
+    free(arr);
     return (mid);
 }
 int get_max_of_chunk(t_stackelem *a, int len, int chunk_len)
@@ -68,6 +69,7 @@ int get_max_of_chunk(t_stackelem *a, int len, int chunk_len)
     arr = copystack_arr(a, len);
     sorted_arr = quiq_sort(arr, 0, len - 1);
     max_of_chunk = sorted_arr[chunk_len];
+    free(arr);
     return (max_of_chunk);
 }
 
@@ -82,12 +84,10 @@ int get_min_indexes(t_stackelem *a, int mid, int len)
     index1 = 0;
     index2 = 0;
     i = -1;
-    // get_min_from_top
-    while (arr[++i] >= mid)
+    while (arr[++i] >= mid) // get_min_from_top
         index1++;
-    // get_min_from_bottom
     i = 0;
-    while (arr[len - i - 1] >= mid)
+    while (arr[len - i - 1] >= mid) // get_min_from_bottom
     {
         index2++;
         i++;
@@ -111,33 +111,6 @@ int get_index(t_stackelem *a, int middle)
     return (index);
 }
 
-int get_max_indexes(t_stackelem *a, int mid, int len)
-{
-    int index1;
-    int index2;
-    int *arr;
-    int i;
-
-    arr = copystack_arr(a, len);
-    index1 = 0;
-    index2 = 0;
-    i = -1;
-    // get_max_from_top
-    while (arr[++i] <= mid)
-        index1++;
-    // get_max_from_bottom
-    i = 0;
-    while (arr[len - i - 1] <= mid)
-    {
-        index2++;
-        i++;
-    }
-    // free(arr);
-    if (index1 <= index2)
-        return (index1);
-    return (len - i - 1);
-}
-
 int get_len(t_stackelem *b, int first, int last)
 {
     int len;
@@ -145,9 +118,6 @@ int get_len(t_stackelem *b, int first, int last)
     int index_l;
 
     len = 0;
-    // segfault hna (chi haja ktkhrb9 o last kaywalli f a o kanwaaliw f NULL)
-    // printf("first: %d last: %d\n", first, last);
-    // fflush(stdout);
     index_f = stackindex(b, first);
     index_l = stackindex(b, last);
     len = abs(index_l - index_f);
