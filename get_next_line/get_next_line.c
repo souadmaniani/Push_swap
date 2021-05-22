@@ -1,9 +1,9 @@
 #include "get_next_line.h"
 #define BUFFER_SIZE 1
 
-char						*ft_strcpy(char *dest, char *src)
+char	*ft_strcpy(char *dest, char *src)
 {
-	int						i;
+	int	i;
 
 	i = 0;
 	while (src[i] != '\0')
@@ -15,11 +15,11 @@ char						*ft_strcpy(char *dest, char *src)
 	return (dest);
 }
 
-char						*resize(char *line)
+char	*resize(char *line)
 {
-	int						i;
-	char					*tmp;
-	char					*ptr;
+	int		i;
+	char	*tmp;
+	char	*ptr;
 
 	i = 0;
 	ptr = line;
@@ -39,7 +39,7 @@ char						*resize(char *line)
 	return (line);
 }
 
-int							free_table(char **table, char **ptr)
+int	free_table(char **table, char **ptr)
 {
 	free(*table);
 	*table = NULL;
@@ -48,9 +48,9 @@ int							free_table(char **table, char **ptr)
 	return (-1);
 }
 
-int							fill_line(char **stock, char **line, int cas)
+int	fill_line(char **stock, char **line, int cas)
 {
-	char					*tmp;
+	char	*tmp;
 
 	if (cas == 1)
 	{
@@ -72,10 +72,10 @@ int							fill_line(char **stock, char **line, int cas)
 	return (1);
 }
 
-int							get_next_line(int fd, char **line)
+int	get_next_line(int fd, char **line)
 {
 	static char				*stock = NULL;
-	int						n;
+	int	n;
 	char					*ptr;
 	char					*tmp;
 
