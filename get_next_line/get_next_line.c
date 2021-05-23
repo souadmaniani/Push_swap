@@ -1,87 +1,115 @@
 #include "get_next_line.h"
+#define BUFFER_SIZE 1
 
-int	ft_finish(char **str, char **line)
+char	*resize(char *line)
 {
-	*line = ft_strdup(*str);
-	if (!(*line))
-		return (-1);
-	free(*str);
-	*str = NULL;
-	return (0);
+	int		i;
+	char	*tmp;
+	char	*ptr;
+
+	i = 0;
+	ptr = line;
+	while (line[i] != '\n' && line[i])
+		i++;
+	tmp = ft_calloc(i + 1, 1);
+	if (!tmp)
+		return (0);
+	line[i] = '\0';
+	ft_strcpy(tmp, line);
+	free(ptr);
+	ptr = NULL;
+	line = ft_calloc(i + 1, 1);
+	if (!line)
+		return (0);
+	ft_strcpy(line, tmp);
+	free(tmp);
+	tmp = NULL;
+	return (line);
 }
 
-int	ft_remplissage(char **str, char **line, int len)
+int	free_table(char **table, char **ptr)
+{
+	free(*table);
+	*table = NULL;
+	free(*ptr);
+	*ptr = NULL;
+	return (-1);
+}
+
+int	fill_line(char **stock, char **line, int cas)
 {
 	char	*tmp;
 
-	*line = ft_substr(*str, 0, len);
-	if (!(*line))
-		return (-1);
-	tmp = ft_strdup((*str) + len + 1);
-	if (!tmp)
-		return (-1);
-	free(*str);
-	*str = ft_strdup(tmp);
-	if (!(*str))
-		return (-1);
-	free(tmp);
+	if (cas == 1)
+	{
+		if (*stock)
+		{
+			tmp = *line;
+			*line = ft_strjoin(*stock, *line);
+			if (!*line)
+				return (-1);
+			free_table(stock, &tmp);
+		}
+	}
+	if (cas == 2)
+	{
+		tmp = *stock;
+		*stock = ft_strjoin(*stock, *line);
+		if (!*stock)
+			return (-1);
+		free_table(&tmp, line);
+	}
 	return (1);
 }
 
-int	ft_read(int fd, char **str)
+int	search_new_line(char **line, char **tmp, int n, int fd)
 {
-	int		ret;
-	char	*buff;
-	char	*tmp;
+	char	*ptr;
 
-	buff = malloc(sizeof(char) * (BUFFER_SIZE + 1));
-	if (!buff)
-		return (-1);
-	ret = read(fd, buff, BUFFER_SIZE);
-	while (ret > 0)
+	*tmp = ft_strchr(*line, '\n');
+	while (!*tmp)
 	{
-		buff[ret] = '\0';
-		tmp = ft_strjoin((*str), buff);
-		if (!tmp)
+		ptr = ft_calloc(BUFFER_SIZE + 1, 1);
+		if (!ptr || n == -1)
 			return (-1);
-		free(*str);
-		*str = NULL;
-		*str = ft_strdup(tmp);
-		if (!(*str))
-			return (-1);
-		free(tmp);
-		if (ft_strchr((*str), '\n'))
-			break ;
+		n = read(fd, ptr, BUFFER_SIZE);
+		if (n == 0)
+		{
+			free(ptr);
+			return (0);
+		}
+		if (n == -1)
+			return (free_table(line, &ptr));
+		if (n && fill_line(line, &ptr, 2) == -1)
+			n = -1;
+		*tmp = ft_strchr(*line, '\n');
 	}
-	free(buff);
-	return (ret);
+	return (1);
 }
 
 int	get_next_line(int fd, char **line)
 {
-	static char		*str;
-	int				ret;
-	int				len;
+	static char	*stock = NULL;
+	int			n;
+	char		*tmp;
+	int			res;
 
-	len = 0;
-	if (fd < 0 || BUFFER_SIZE < 0 || !line)
+	*line = ft_calloc(1, 1);
+	if (!BUFFER_SIZE || !*line)
 		return (-1);
-	if (!str)
-	{
-		str = ft_strdup("");
-		if (!str)
-			return (-1);
-	}
-	ret = ft_read(fd, &str);
-	if (ret < 0)
+	if (fill_line(&stock, line, 1) == -1)
+		n = -1;
+	else
+		n = 1;
+	res = search_new_line(line, &tmp, n, fd);
+	if (res == 0 || res == -1)
+		return (res);
+	stock = ft_calloc(ft_strlen(tmp + 1) + 1, 1);
+	if (!stock)
 		return (-1);
-	while (str[len] != '\0' && str[len] != '\n')
-		len++;
-	if (str[len] == '\n')
-	{
-		return (ft_remplissage(&str, line, len));
-	}
-	else if (str[len] == '\0')
-		return (ft_finish(&str, line));
-	return (0);
+	ft_strcpy(stock, tmp + 1);
+	*line = resize(*line);
+	if (!*line)
+		return (-1);
+	return (1);
 }

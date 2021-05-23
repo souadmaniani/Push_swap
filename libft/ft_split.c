@@ -2,8 +2,8 @@
 
 static int	wordscount(char const *s, char c)
 {
-	int i;
-	int count;
+	int	i;
+	int	count;
 
 	if (s == 0)
 		return (0);
@@ -19,11 +19,18 @@ static int	wordscount(char const *s, char c)
 	return (count);
 }
 
+void	free_table(char **p, int j)
+{
+	while (j--)
+		free(p[j]);
+	free(p);
+}
+
 static char	**fill(char **p, char const *s, int words, char c)
 {
-	int j;
-	int i;
-	int lenword;
+	int	j;
+	int	i;
+	int	lenword;
 
 	j = -1;
 	while (++j < words && *s)
@@ -33,12 +40,9 @@ static char	**fill(char **p, char const *s, int words, char c)
 		i = 0;
 		while (s[i] != c && s[i])
 			i++;
-		if (!(p[j] = (char *)malloc(i * sizeof(char) + 1)))
-		{
-			while (j--)
-				free(p[j]);
-			free(p);
-		}
+		p[j] = (char *)malloc(i * sizeof(char) + 1);
+		if (!p[j])
+			free_table(p, j);
 		lenword = -1;
 		while (++lenword < i)
 			p[j][lenword] = *s++;
@@ -48,14 +52,14 @@ static char	**fill(char **p, char const *s, int words, char c)
 	return (p);
 }
 
-char		**ft_split(char const *s, char c, int *len)
+char	**ft_split(char const *s, char c, int *len)
 {
 	char	**p;
 	int		words;
 
 	words = wordscount(s, c);
 	*len = words;
-	p = (char**)malloc((words + 1) * sizeof(char*));
+	p = (char **)malloc((words + 1) * sizeof(char *));
 	if (p == 0)
 		return (0);
 	return (fill(p, s, words, c));
