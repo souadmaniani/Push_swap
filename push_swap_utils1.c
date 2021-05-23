@@ -7,7 +7,7 @@ int	is_duplicate(char *str, char **argv, int	index)
 	i = 0;
 	while (argv[++i])
 	{
-		if (!strcmp(str, argv[i]) && index != i)
+		if (!ft_strcmp(str, argv[i]) && index != i)
 			return (1);
 	}
 	return (0);
