@@ -2,14 +2,14 @@
 
 t_stackelem	*stacknew(int data)
 {
-	t_stackelem *new;
+	t_stackelem	*new;
 
-    new = malloc(sizeof(t_stackelem));
-    if (!new)
-        return (NULL);
-    new->data = data;
-    new->next = NULL;
-    return (new);
+	new = malloc(sizeof(t_stackelem));
+	if (!new)
+		return (NULL);
+	new->data = data;
+	new->next = NULL;
+	return (new);
 }
 
 void	stackadd_front(t_stackelem **head, t_stackelem *new)
@@ -20,9 +20,9 @@ void	stackadd_front(t_stackelem **head, t_stackelem *new)
 
 void	stackadd_back(t_stackelem **head, t_stackelem *new)
 {
-	t_stackelem *last;
+	t_stackelem	*last;
 
-	if(!*head)
+	if (!*head)
 		stackadd_front(head, new);
 	last = stacklast(*head);
 	last->next = new;
@@ -31,7 +31,7 @@ void	stackadd_back(t_stackelem **head, t_stackelem *new)
 
 int	stackdelete_head(t_stackelem **head)
 {
-	t_stackelem *tmp;
+	t_stackelem	*tmp;
 	int			data;
 
 	tmp = NULL;
@@ -46,8 +46,8 @@ int	stackdelete_head(t_stackelem **head)
 int	stackdelete_last(t_stackelem **head)
 {
 	int			data;
-	t_stackelem *last;
-	t_stackelem *tmp;
+	t_stackelem	*last;
+	t_stackelem	*tmp;
 
 	tmp = *head;
 	while (tmp->next->next)

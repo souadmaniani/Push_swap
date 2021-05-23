@@ -1,42 +1,24 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_substr.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: ozakkare <ozakkare@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/13 02:15:06 by ozakkare          #+#    #+#             */
-/*   Updated: 2019/10/22 18:08:50 by ozakkare         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "libft.h"
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
-	char	*p;
-	int		i;
-	int		starts;
+	char	*new;
+	size_t	i;
 
-	if (!s)
-		return (NULL);
-	if (s[0] == '\0' || start > ft_strlen(s))
-	{
-		if (!(p = malloc(1 * sizeof(char))))
-			return (0);
-		p[0] = '\0';
-		return (p);
-	}
-	if (!(p = malloc((len + 1) * sizeof(char))))
+	if (s == 0)
 		return (0);
+	new = malloc(sizeof(char) * (len + 1));
+	if (!new)
+		return (NULL);
+	if (start > ft_strlen(s))
+		return (new = ft_strdup(""));
 	i = 0;
-	starts = start;
-	while (start < (unsigned int)len + starts && s[start])
+	while (i < len)
 	{
-		p[i] = s[start];
-		i++;
+		new[i] = s[start];
 		start++;
+		i++;
 	}
-	p[i] = '\0';
-	return (p);
+	new[i] = '\0';
+	return (new);
 }

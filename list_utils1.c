@@ -2,7 +2,7 @@
 
 int	stacksize(t_stackelem *head)
 {
-	int len;
+	int	len;
 
 	len = 0;
 	while (head)
@@ -22,36 +22,39 @@ t_stackelem	*stacklast(t_stackelem *head)
 	return (head);
 }
 
-int stackmax(t_stackelem *a)
+int	stackmax(t_stackelem *a)
 {
-    int maxim = a->data;
-    a = a->next;
-    while (a)
-    {
-        if (a->data > maxim)
-            maxim = a->data;
-        a = a->next;
-    }
-    return (maxim);
-    
+	int	maxim;
+
+	maxim = a->data;
+	a = a->next;
+	while (a)
+	{
+		if (a->data > maxim)
+			maxim = a->data;
+		a = a->next;
+	}
+	return (maxim);
 }
 
-int stackmin(t_stackelem *a)
+int	stackmin(t_stackelem *a)
 {
-    int minim = a->data;
-    a = a->next;
-    while (a)
-    {
-        if (a->data < minim)
-            minim = a->data;
-        a = a->next;
-    }
-    return (minim);
+	int	minim;
+
+	minim = a->data;
+	a = a->next;
+	while (a)
+	{
+		if (a->data < minim)
+			minim = a->data;
+		a = a->next;
+	}
+	return (minim);
 }
 
 void	stackiter(void (*f)(t_stackelem **, t_stackelem **),
-    t_stackelem **a, t_stackelem **b, char *str)
+			t_stackelem **a, t_stackelem **b, char *str)
 {
-    f(a, b);
-    write(1, str, ft_strlen(str));
+	f(a, b);
+	write(1, str, ft_strlen(str));
 }

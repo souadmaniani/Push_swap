@@ -1,49 +1,30 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_atoi.c                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: ozakkare <ozakkare@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/09 12:35:04 by ozakkare          #+#    #+#             */
-/*   Updated: 2019/10/19 03:33:55 by ozakkare         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "libft.h"
 
-static int	whitespace(char c)
+int	ft_atoi(const char *str)
 {
-	if (c == '\n' || c == '\v' || c == '\f' || c == '\t' || c == '\r')
-		return (1);
-	if (c == ' ')
-		return (1);
-	return (0);
-}
+	unsigned int	i;
+	int				sign;
+	size_t			r;
 
-int			ft_atoi(const char *str)
-{
-	int				i;
-	int				negativity;
-	unsigned long	result;
-
-	result = 0;
-	negativity = 1;
 	i = 0;
-	while (whitespace(str[i]))
+	sign = 1;
+	r = 0;
+	while (str[i] == 32 || (str[i] >= 9 && str[i] <= 13))
 		i++;
-	if (str[i] == '-')
-		negativity = -1;
-	if (str[i] == '+' || str[i] == '-')
-		i++;
-	while (str[i] >= 48 && str[i] <= 57)
+	if (str[i] == '-' || str[i] == '+')
 	{
-		result = result * 10 + (str[i] - 48);
+		if (str[i] == '-')
+			sign = -1;
 		i++;
 	}
-	if (result > 2147483647 && negativity == 1)
-		return (-1);
-	if (result > 2147483648 && negativity == -1)
-		return (0);
-	return (result * negativity);
+	while (str[i] >= '0' && str[i] <= '9')
+	{
+		r = ((r * 10) + str[i] - '0');
+		i++;
+		if (r > 4294967295 && sign == 1)
+			return (-1);
+		if (sign == -1 && r > 4294967295)
+			return (0);
+	}
+	return (r * sign);
 }

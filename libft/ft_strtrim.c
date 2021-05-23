@@ -1,110 +1,87 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_strtrim.c                                       :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: ozakkare <ozakkare@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/13 22:53:44 by ozakkare          #+#    #+#             */
-/*   Updated: 2019/10/20 18:45:27 by ozakkare         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "libft.h"
 
-static int		check(char a, const char *set)
+static int	ft_wherestart(char const *s1, char const *set)
 {
-	int i;
+	int	start;
+	int	i;
 
-	i = 0;
-	while (set[i])
+	start = 0;
+	while (s1[start] != '\0')
 	{
-		if (set[i] == a)
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
-static int		starts(const char *s1, const char *set, int lens)
-{
-	int j;
-	int start;
-	int i;
-
-	if (!(check(s1[0], set)))
-		return (0);
-	j = -1;
-	while (++j < lens)
-	{
-		i = -1;
-		while (set[++i])
-		{
-			if (set[i] == s1[j])
-			{
-				start = j;
-				if (!(check(s1[j + 1], set)))
-				{
-					if (start + 1 == (int)ft_strlen(s1))
-						start = 0;
-					return (start + 1);
-				}
-			}
-		}
+		i = 0;
+		while (s1[start] != set[i] && set[i] != '\0')
+			i++;
+		if (s1[start] == set[i])
+			start++;
+		else
+			break ;
 	}
 	return (start);
 }
 
-static int		ends(const char *s1, const char *set, int lens)
+static int	ft_whereend(char const *s1, char const *set, int start)
 {
-	int j;
-	int i;
-	int end;
+	int	end;
+	int	i;
 
-	if (!(check(s1[lens - 1], set)))
-		return (lens);
-	j = lens - 1;
-	while (j)
+	end = ft_strlen(s1);
+	i = 0;
+	while (end >= start)
 	{
 		i = 0;
-		while (set[i])
-		{
-			if (set[i] == s1[j])
-			{
-				end = j;
-				if (!(check(s1[j - 1], set)))
-					return (end);
-			}
+		while (s1[end] != set[i] && set[i] != '\0')
 			i++;
-		}
-		j--;
+		if (s1[end] == set[i])
+			end--;
+		else
+			break ;
 	}
 	return (end);
 }
 
-char			*ft_strtrim(char const *s1, char const *set)
+static	char	*ft_case(char const *s1)
 {
-	char	*p;
 	int		i;
+	char	*fin;
+
+	i = 0;
+	fin = malloc((ft_strlen(s1) + 1) * sizeof(char));
+	if (!fin)
+		return (0);
+	while (i < (int)ft_strlen(s1))
+	{
+		fin[i] = s1[i];
+		i++;
+	}
+	fin[i] = '\0';
+	return (fin);
+}
+
+char	*ft_strtrim(char const *s1, char const *set)
+{
+	char	*fin;
 	int		start;
 	int		end;
-	int		lens;
+	int		i;
+	int		s;
 
-	if (s1 == 0)
+	if (s1 == NULL)
 		return (0);
-	lens = (int)ft_strlen(s1);
-	start = starts(s1, set, lens);
-	end = ends(s1, set, lens);
-	p = malloc((end - start + 1) * sizeof(char));
-	if (p == 0)
-		return (0);
+	if (s1 && !set)
+		return (ft_case(s1));
+	start = ft_wherestart(s1, set);
+	end = ft_whereend(s1, set, start);
 	i = 0;
-	while (start < end)
+	s = end - start + 1;
+	fin = (char *)malloc((s + 1) * sizeof(char));
+	if (!fin)
+		return (0);
+	while (i < s)
 	{
-		p[i] = s1[start];
+		fin[i] = s1[start];
 		i++;
 		start++;
 	}
-	p[i] = '\0';
-	return (p);
+	fin[i] = '\0';
+	return (fin);
 }

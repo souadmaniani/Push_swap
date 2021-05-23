@@ -1,41 +1,29 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_strlcat.c                                       :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: ozakkare <ozakkare@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/11 22:09:32 by ozakkare          #+#    #+#             */
-/*   Updated: 2019/10/22 01:33:08 by ozakkare         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "libft.h"
 
-size_t		ft_strlcat(char *dst, const char *src, size_t size)
+size_t	ft_strlcat(char *dst, const char *src, size_t size)
 {
-	size_t lend;
-	size_t lens;
-	size_t len;
-	size_t i;
+	size_t	s_src;
+	size_t	k;
 
-	if (size == 0)
-		return (ft_strlen(src));
-	lend = ft_strlen(dst);
-	lens = ft_strlen(src);
-	len = lens + lend;
-	i = 0;
-	if (size < lend)
-		len = (lens + size);
-	if (size > lend)
+	k = 0;
+	s_src = ft_strlen(src);
+	if (!dst && size == 0)
+		return (s_src);
+	if (ft_strlen(dst) > size)
+		s_src = s_src + size;
+	else
+		s_src = s_src + ft_strlen(dst);
+	while (*dst && size != 0)
 	{
-		while (src[i] && (lend + i) < (size - 1))
-		{
-			dst[lend + i] = src[i];
-			i++;
-		}
-		dst[lend + i] = '\0';
-		len = (lens + lend);
+		dst++;
+		size--;
 	}
-	return (len);
+	while (*src && 1 < size)
+	{
+		*dst++ = *src++;
+		size--;
+	}
+	if (size != 0)
+		*dst = '\0';
+	return (s_src);
 }
