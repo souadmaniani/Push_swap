@@ -1,30 +1,37 @@
 #include "libft.h"
 
+int	whitespace(char c)
+{
+	if (c == '\n' || c == '\v' || c == '\f' || c == '\t' || c == '\r')
+		return (1);
+	if (c == ' ')
+		return (1);
+	return (0);
+}
+
 int	ft_atoi(const char *str)
 {
-	unsigned int	i;
-	int				sign;
-	size_t			r;
+	int				i;
+	int				negativity;
+	unsigned long	result;
 
+	result = 0;
+	negativity = 1;
 	i = 0;
-	sign = 1;
-	r = 0;
-	while (str[i] == 32 || (str[i] >= 9 && str[i] <= 13))
+	while (whitespace(str[i]))
 		i++;
-	if (str[i] == '-' || str[i] == '+')
+	if (str[i] == '-')
+		negativity = -1;
+	if (str[i] == '+' || str[i] == '-')
+		i++;
+	while (str[i] >= 48 && str[i] <= 57)
 	{
-		if (str[i] == '-')
-			sign = -1;
+		result = result * 10 + (str[i] - 48);
 		i++;
 	}
-	while (str[i] >= '0' && str[i] <= '9')
-	{
-		r = ((r * 10) + str[i] - '0');
-		i++;
-		if (r > 4294967295 && sign == 1)
-			return (-1);
-		if (sign == -1 && r > 4294967295)
-			return (0);
-	}
-	return (r * sign);
+	if (result > 2147483647 && negativity == 1)
+		return (-1);
+	if (result > 2147483648 && negativity == -1)
+		return (0);
+	return (result * negativity);
 }

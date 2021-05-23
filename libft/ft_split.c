@@ -19,7 +19,7 @@ static int	wordscount(char const *s, char c)
 	return (count);
 }
 
-void	free_table(char **p, int j)
+void	free_previous_tab(char **p, int j)
 {
 	while (j--)
 		free(p[j]);
@@ -42,7 +42,7 @@ static char	**fill(char **p, char const *s, int words, char c)
 			i++;
 		p[j] = (char *)malloc(i * sizeof(char) + 1);
 		if (!p[j])
-			free_table(p, j);
+			free_previous_tab(p, j);
 		lenword = -1;
 		while (++lenword < i)
 			p[j][lenword] = *s++;

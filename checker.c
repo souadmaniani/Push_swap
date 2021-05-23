@@ -50,7 +50,7 @@ int	apply_instruction(char *line, t_stackelem **a, t_stackelem **b)
 	else if (!ft_strcmp(line, "rrr"))
 		instruction_help("rrr", a, b);
 	else
-		error_return();
+		return (error_return());
 	return (0);
 }
 
@@ -86,7 +86,7 @@ int	main(int argc, char *argv[])
 		ret = ft_create_stack(argc, argv, &a);
 		if (ret == -1)
 			return (-1);
-		while (get_next_line(0, &line) > 0)
+		while (get_next_line(0, &line) >= 0 && ft_strcmp(line, ""))
 		{
 			res = apply_instruction(line, &a, &b);
 			free(line);
