@@ -21,7 +21,7 @@ void	instruction_help(char *str, t_stackelem **a, t_stackelem **b)
 
 int	error_return(void)
 {
-	write(1, "Error\n", 6);
+	write(2, "Error\n", 6);
 	return (-1);
 }
 
@@ -74,7 +74,6 @@ int	ft_create_stack(int argc, char *argv[], t_stackelem **a)
 
 int	main(int argc, char *argv[])
 {
-	int			ret;
 	int			res;
 	t_stackelem	*a;
 	t_stackelem	*b;
@@ -83,16 +82,17 @@ int	main(int argc, char *argv[])
 	if (argc >= 2)
 	{
 		b = NULL;
-		ret = ft_create_stack(argc, argv, &a);
-		if (ret == -1)
+		if (ft_create_stack(argc, argv, &a) == -1)
 			return (-1);
-		while (get_next_line(0, &line) >= 0 && ft_strcmp(line, ""))
+		while (get_next_line(0, &line) > 0)
 		{
 			res = apply_instruction(line, &a, &b);
 			free(line);
 			if (res == -1)
 				return (-1);
 		}
+		if (line[0])
+			return (error_return());
 		if (is_sorted(a) && !b)
 			write(1, "OK\n", 3);
 		else

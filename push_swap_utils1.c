@@ -26,7 +26,7 @@ int	create_stack(t_stackelem	**head, char **argv)
 			|| (!ft_atoi(argv[i]) && ft_strcmp(argv[i], "0"))
 			|| is_duplicate(argv[i], argv, i))
 		{
-			write(1, "Error\n", 7);
+			write(2, "Error\n", 7);
 			return (-1);
 		}
 		new = stacknew(ft_atoi(argv[i]));
